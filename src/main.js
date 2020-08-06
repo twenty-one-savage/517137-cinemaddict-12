@@ -1,3 +1,4 @@
+import {FILMS_COUNT} from './consts.js';
 import {createAppUserTemplate} from './view/user.js';
 import {createAppMainNavigationTemplate} from './view/main-nav.js';
 import {createAppSortTemplate} from './view/sort.js';
@@ -7,7 +8,9 @@ import {createAppBtnShowMoreTemplate} from './view/btn-show-more.js';
 import {createAppFilmPopupTemplate} from './view/film-popup.js';
 import {createAppTopRatedFilmsTemplate} from './view/top-rated-films.js';
 import {createAppMostCommentedFilmsTemplate} from './view/most-commented-films.js';
-import {FILMS_COUNT} from './consts.js';
+import {generateFilms} from './mock/film.js';
+
+const films = generateFilms();
 
 const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
@@ -30,7 +33,7 @@ const appFilmsListElement = appFilmsElement.querySelector(`.films-list`);
 const appFilmsListContainerElement = appFilmsListElement.querySelector(`.films-list__container`);
 
 for (let i = 0; i < FILMS_COUNT.MAIN; i++) {
-  render(appFilmsListContainerElement, createAppFilmTemplate(), `beforeend`);
+  render(appFilmsListContainerElement, createAppFilmTemplate(films[i]), `beforeend`);
 }
 
 render(appFilmsListElement, createAppBtnShowMoreTemplate(), `beforeend`);

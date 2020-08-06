@@ -1,5 +1,5 @@
 import {getRandomInteger} from '../utils.js';
-import {FilmOptions, genres} from '../consts.js';
+import {FILMS_COUNT, FilmOptions, genres} from '../consts.js';
 
 const generateFilmName = () => {
   const filmNames = [
@@ -69,7 +69,7 @@ const genereateFilmGenre = () => {
   return genres[randomIndex];
 };
 
-export const generateFilm = () => {
+const generateFilm = () => {
   return {
     poster: generateFilmPoster(),
     name: generateFilmName(),
@@ -80,4 +80,8 @@ export const generateFilm = () => {
     description: generateDesription(),
     commentsQuantity: generateCommentsQuantity()
   };
+};
+
+export const generateFilms = () => {
+  return new Array(FILMS_COUNT.MAIN).fill().map(generateFilm);
 };
