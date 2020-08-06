@@ -50,6 +50,6 @@ const appFilmsExtraElements = appFilmsElement.querySelectorAll(`.films-list--ext
 for (let i = 0; i < appFilmsExtraElements.length; i++) {
   const el = appFilmsExtraElements[i].querySelector(`.films-list__container`);
   for (let j = 0; j < FILMS_COUNT.EXTRA; j++) {
-    render(el, createAppFilmTemplate(), `beforeend`);
+    render(el, createAppFilmTemplate(films[i]), `beforeend`);
   }
 }

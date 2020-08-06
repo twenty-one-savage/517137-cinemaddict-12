@@ -33,9 +33,8 @@ const generateFilmPoster = () => {
   return filmPosters[randomIndex];
 };
 
-const generateDesription = () => {
-  const descriptions = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`;
-  descriptions.split(`. `);
+const generateDescription = () => {
+  const descriptions = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`.split(`. `);
 
   const randomIndex = getRandomInteger(0, descriptions.length - 1);
 
@@ -48,7 +47,7 @@ const generateCommentsQuantity = () => {
 };
 
 const generateFilmRating = () => {
-  return (Math.random() * (FilmOptions.FILM_RATING.MAX - FilmOptions.FILM_RATING.MIN)).toFixed(1);
+  return (Math.random() * (FilmOptions.FILM_RATING.MAX)).toFixed(1);
 };
 
 const generateFilmYearOfProduction = () => {
@@ -77,7 +76,7 @@ const generateFilm = () => {
     yearOfProduction: generateFilmYearOfProduction(),
     duration: generateFilmDuration(),
     genre: genereateFilmGenre(),
-    description: generateDesription(),
+    description: generateDescription(),
     commentsQuantity: generateCommentsQuantity()
   };
 };
