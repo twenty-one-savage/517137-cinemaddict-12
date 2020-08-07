@@ -11,8 +11,12 @@ import {createAppTopRatedFilmsTemplate} from './view/top-rated-films.js';
 import {createAppMostCommentedFilmsTemplate} from './view/most-commented-films.js';
 import {createAppFilmStatisticsTemplate} from './view/film-statistics.js';
 import {generateFilms} from './mock/film.js';
+import {generateFilter} from './mock/filter.js';
+
 
 const films = generateFilms();
+
+const filters = generateFilter(films);
 
 const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
@@ -26,7 +30,7 @@ const appMainElement = document.querySelector(`.main`);
 
 render(appMainElement, createAppSortTemplate(), `afterbegin`);
 
-render(appMainElement, createAppMainNavigationTemplate(), `afterbegin`);
+render(appMainElement, createAppMainNavigationTemplate(filters), `afterbegin`);
 
 render(appMainElement, createAppFilmsListTemplate(), `beforeend`);
 
