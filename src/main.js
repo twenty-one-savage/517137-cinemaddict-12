@@ -1,4 +1,5 @@
 import {FILMS_COUNT} from './consts.js';
+import {getRandomInteger} from './utils.js';
 import {createAppUserTemplate} from './view/user.js';
 import {createAppMainNavigationTemplate} from './view/main-nav.js';
 import {createAppSortTemplate} from './view/sort.js';
@@ -40,7 +41,7 @@ render(appFilmsListElement, createAppBtnShowMoreTemplate(), `beforeend`);
 
 const appBodyElement = document.querySelector(`body`);
 
-render(appBodyElement, createAppFilmPopupTemplate(), `beforeend`);
+render(appBodyElement, createAppFilmPopupTemplate(films[getRandomInteger(0, films.length - 1)]), `beforeend`);
 
 render(appFilmsElement, createAppTopRatedFilmsTemplate(), `beforeend`);
 render(appFilmsElement, createAppMostCommentedFilmsTemplate(), `beforeend`);
