@@ -1,4 +1,4 @@
-import {FILMS_COUNT} from './consts.js';
+import {FilmsCount} from './consts.js';
 import {getRandomInteger} from './utils.js';
 import {createAppUserTemplate} from './view/user.js';
 import {createAppMainNavigationTemplate} from './view/main-nav.js';
@@ -34,7 +34,7 @@ const appFilmsElement = appMainElement.querySelector(`.films`);
 const appFilmsListElement = appFilmsElement.querySelector(`.films-list`);
 const appFilmsListContainerElement = appFilmsListElement.querySelector(`.films-list__container`);
 
-for (let i = 0; i < FILMS_COUNT.MAIN; i++) {
+for (let i = 0; i < FilmsCount.MAIN; i++) {
   render(appFilmsListContainerElement, createAppFilmTemplate(films[i]), `beforeend`);
 }
 
@@ -51,7 +51,7 @@ const appFilmsExtraElements = appFilmsElement.querySelectorAll(`.films-list--ext
 
 for (let i = 0; i < appFilmsExtraElements.length; i++) {
   const el = appFilmsExtraElements[i].querySelector(`.films-list__container`);
-  for (let j = 0; j < FILMS_COUNT.EXTRA; j++) {
+  for (let j = 0; j < FilmsCount.EXTRA; j++) {
     render(el, createAppFilmTemplate(films[i]), `beforeend`);
   }
 }

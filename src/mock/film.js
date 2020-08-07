@@ -1,5 +1,5 @@
 import {getRandomInteger} from '../utils.js';
-import {FILMS_COUNT, FilmOptions, genres} from '../consts.js';
+import {FilmsCount, FilmOptions, genres} from '../consts.js';
 
 const generateFilmName = () => {
   const filmNames = [
@@ -47,17 +47,17 @@ const generateCommentsQuantity = () => {
 };
 
 const generateFilmRating = () => {
-  return (Math.random() * (FilmOptions.FILM_RATING.MAX)).toFixed(1);
+  return (Math.random() * (FilmOptions.filmRating.MAX)).toFixed(1);
 };
 
 const generateFilmYearOfProduction = () => {
-  return getRandomInteger(FilmOptions.FILM_YEAR.MIN, FilmOptions.FILM_YEAR.MAX);
+  return getRandomInteger(FilmOptions.filmYear.MIN, FilmOptions.filmYear.MAX);
 };
 
 const generateFilmDuration = () => {
   const filmDuration = {
-    hours: getRandomInteger(FilmOptions.FILM_DURATION.hours.MIN, FilmOptions.FILM_DURATION.hours.MAX),
-    minutes: getRandomInteger(FilmOptions.FILM_DURATION.minutes.MIN, FilmOptions.FILM_DURATION.minutes.MAX)
+    hours: getRandomInteger(FilmOptions.filmDuration.hours.MIN, FilmOptions.filmDuration.hours.MAX),
+    minutes: getRandomInteger(FilmOptions.filmDuration.minutes.MIN, FilmOptions.filmDuration.minutes.MAX)
   };
 
   return filmDuration;
@@ -77,10 +77,13 @@ const generateFilm = () => {
     duration: generateFilmDuration(),
     genre: genereateFilmGenre(),
     description: generateDescription(),
-    commentsQuantity: generateCommentsQuantity()
+    commentsQuantity: generateCommentsQuantity(),
+    isWatchlist: Boolean(getRandomInteger()),
+    isHistory: Boolean(getRandomInteger()),
+    isFavorite: Boolean(getRandomInteger())
   };
 };
 
 export const generateFilms = () => {
-  return new Array(FILMS_COUNT.MAIN).fill().map(generateFilm);
+  return new Array(FilmsCount.MAIN).fill().map(generateFilm);
 };

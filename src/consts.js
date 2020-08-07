@@ -1,18 +1,18 @@
-export const FILMS_COUNT = {
+export const FilmsCount = {
   MAIN: 5,
   EXTRA: 2
 };
 
 export const FilmOptions = {
-  FILM_RATING: {
+  filmRating: {
     MIN: 0,
     MAX: 10
   },
-  FILM_YEAR: {
+  filmYear: {
     MIN: 1900,
-    MAX: 2000
+    MAX: 2020
   },
-  FILM_DURATION: {
+  filmDuration: {
     hours: {
       MIN: 0,
       MAX: 3
