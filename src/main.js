@@ -9,6 +9,7 @@ import {createAppBtnShowMoreTemplate} from './view/btn-show-more.js';
 import {createAppFilmPopupTemplate} from './view/film-popup.js';
 import {createAppTopRatedFilmsTemplate} from './view/top-rated-films.js';
 import {createAppMostCommentedFilmsTemplate} from './view/most-commented-films.js';
+import {createAppFilmStatisticsTemplate} from './view/film-statistics.js';
 import {generateFilms} from './mock/film.js';
 
 const films = generateFilms();
@@ -54,3 +55,7 @@ for (let i = 0; i < appFilmsExtraElements.length; i++) {
     render(el, createAppFilmTemplate(films[i]), `beforeend`);
   }
 }
+
+const appFooterElement = appBodyElement.querySelector(`.footer`);
+
+render(appFooterElement, createAppFilmStatisticsTemplate(), `beforeend`);

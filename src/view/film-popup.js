@@ -2,7 +2,7 @@ export const createAppFilmPopupTemplate = (film) => {
   const {poster, name, rating, yearOfProduction, duration, genre, description, commentsQuantity} = film;
   return (
     `
-      <section class="film-details">
+      <section class="film-details" style="display: none;">
     <form class="film-details__inner" action="" method="get">
       <div class="form-details__top-container">
         <div class="film-details__close">
