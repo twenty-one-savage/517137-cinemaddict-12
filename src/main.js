@@ -38,11 +38,30 @@ const appFilmsElement = appMainElement.querySelector(`.films`);
 const appFilmsListElement = appFilmsElement.querySelector(`.films-list`);
 const appFilmsListContainerElement = appFilmsListElement.querySelector(`.films-list__container`);
 
-for (let i = 0; i < FilmsCount.MAIN; i++) {
+for (let i = 0; i < Math.min(films.length, FilmsCount.PER_STEP); i++) {
   render(appFilmsListContainerElement, createAppFilmTemplate(films[i]), `beforeend`);
 }
 
-render(appFilmsListElement, createAppBtnShowMoreTemplate(), `beforeend`);
+if (films.length > FilmsCount.PER_STEP) {
+  let renderedFilmsCount = FilmsCount.PER_STEP;
+
+  render(appFilmsListElement, createAppBtnShowMoreTemplate(), `beforeend`);
+
+  const loadMoreButton = appFilmsListElement.querySelector(`.films-list__show-more`);
+
+  loadMoreButton.addEventListener(`click`, (evt) => {
+    evt.preventDefault();
+    films.slice(renderedFilmsCount, renderedFilmsCount + FilmsCount.PER_STEP)
+    .forEach((film) => render(appFilmsListContainerElement, createAppFilmTemplate(film), `beforeend`));
+
+    renderedFilmsCount += FilmsCount.PER_STEP;
+
+    if (renderedFilmsCount >= films.length) {
+      loadMoreButton.remove();
+    }
+
+  });
+}
 
 const appBodyElement = document.querySelector(`body`);
 
