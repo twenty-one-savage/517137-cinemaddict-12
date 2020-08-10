@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 const createFilterItemTemplate = (filter) => {
   let {name, count} = filter;
 
@@ -9,18 +10,10 @@ const createFilterItemTemplate = (filter) => {
       favorites: `Favorites`
     };
 
-    switch (name) {
-      case `watchList`:
-        filterName = filterNameMap.watchList;
-        break;
-      case `history`:
-        filterName = filterNameMap.history;
-        break;
-      case `favorites`:
-        filterName = filterNameMap.favorites;
-        break;
-      default:
-        break;
+    const filters = Object.entries(filterNameMap);
+
+    for (let [key, value] of filters) {
+      filterName === key ? filterName = value : false;
     }
 
     return filterName;
