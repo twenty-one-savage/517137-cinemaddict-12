@@ -1,8 +1,36 @@
 const createFilterItemTemplate = (filter) => {
-  const {name, count} = filter;
+  let {name, count} = filter;
+
+  const pasteRightName = (filterName) => {
+
+    const filterNameMap = {
+      watchList: `Watch List`,
+      history: `History`,
+      favorites: `Favorites`
+    };
+
+    switch (name) {
+      case `watchList`:
+        filterName = filterNameMap.watchList;
+        break;
+      case `history`:
+        filterName = filterNameMap.history;
+        break;
+      case `favorites`:
+        filterName = filterNameMap.favorites;
+        break;
+      default:
+        break;
+    }
+
+    return filterName;
+
+  };
+
+
   return (
     `
-    <a href="#${name.toLowerCase()}" class="main-navigation__item">${name} <span class="main-navigation__item-count">${count}</span></a>
+    <a href="#${name.toLowerCase()}" class="main-navigation__item">${pasteRightName(name)} <span class="main-navigation__item-count">${count}</span></a>
     `
   );
 };
