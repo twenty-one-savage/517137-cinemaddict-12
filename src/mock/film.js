@@ -34,16 +34,33 @@ const generateFilmPoster = () => {
 };
 
 const generateDescription = () => {
-  const descriptions = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`.split(`. `);
+  const descriptions = [
+    `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
+    `Cras aliquet varius magna, non porta ligula feugiat eget.`,
+    `Fusce tristique felis at fermentum pharetra.`,
+    `Aliquam id orci ut lectus varius viverra.`,
+    `Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.`,
+    `Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.`,
+    `Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.`,
+    `Sed sed nisi sed augue convallis suscipit in sed felis.`,
+    `Aliquam erat volutpat.`,
+    `Nunc fermentum tortor ac porta dapibus.`,
+    `In rutrum ac purus sit amet tempus.`
+  ];
 
-  const randomIndex = getRandomInteger(0, descriptions.length - 1);
+  let description = descriptions.sort(() => 0.5 - Math.random()).slice(0, 5).join(` `);
 
-  return descriptions[randomIndex];
+  return description;
 };
 
-// TODO: пока не разобрался как правильно их выводить
-const generateCommentsQuantity = () => {
-  return getRandomInteger(0, 5);
+const generateComments = () => {
+  return [{
+    text: null,
+    emoji: null,
+    author: null,
+    date: null,
+    quantity: getRandomInteger(0, 5)
+  }];
 };
 
 const generateFilmRating = () => {
@@ -69,6 +86,8 @@ const genereateFilmGenre = () => {
 };
 
 const generateFilm = () => {
+  const comment = generateComments();
+
   return {
     poster: generateFilmPoster(),
     name: generateFilmName(),
@@ -77,7 +96,7 @@ const generateFilm = () => {
     duration: generateFilmDuration(),
     genre: genereateFilmGenre(),
     description: generateDescription(),
-    commentsQuantity: generateCommentsQuantity(),
+    commentsQuantity: comment[0].quantity,
     isWatchlist: Boolean(getRandomInteger()),
     isHistory: Boolean(getRandomInteger()),
     isFavorite: Boolean(getRandomInteger())

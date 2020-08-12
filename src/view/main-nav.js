@@ -1,29 +1,11 @@
-/* eslint-disable no-unused-expressions */
 const createFilterItemTemplate = (filter) => {
   let {name, count} = filter;
-
-  const pasteRightName = (filterName) => {
-
-    const filterNameMap = {
-      watchList: `Watch List`,
-      history: `History`,
-      favorites: `Favorites`
-    };
-
-    const filters = Object.entries(filterNameMap);
-
-    for (let [key, value] of filters) {
-      filterName === key ? filterName = value : false;
-    }
-
-    return filterName;
-
-  };
-
-
+  const deleteSpace = (str) => {
+    return str.replace(/\s/g, ``);
+  }
   return (
     `
-    <a href="#${name.toLowerCase()}" class="main-navigation__item">${pasteRightName(name)} <span class="main-navigation__item-count">${count}</span></a>
+    <a href="#${deleteSpace(name).toLowerCase()}" class="main-navigation__item">${name} <span class="main-navigation__item-count">${count}</span></a>
     `
   );
 };
