@@ -54,13 +54,17 @@ const generateDescription = () => {
 };
 
 const generateComments = () => {
-  return [{
-    text: null,
-    emoji: null,
-    author: null,
-    date: null,
-    quantity: getRandomInteger(0, 5)
-  }];
+  const comments = [];
+
+  for (let i = 0; i < getRandomInteger(0, 5); i++) {
+    comments.push({
+      text: null,
+      emoji: null,
+      author: null,
+      date: null,
+    });
+  }
+  return comments;
 };
 
 const generateFilmRating = () => {
@@ -86,7 +90,7 @@ const genereateFilmGenre = () => {
 };
 
 const generateFilm = () => {
-  const comment = generateComments();
+  const comments = generateComments();
 
   return {
     poster: generateFilmPoster(),
@@ -96,7 +100,7 @@ const generateFilm = () => {
     duration: generateFilmDuration(),
     genre: genereateFilmGenre(),
     description: generateDescription(),
-    commentsQuantity: comment[0].quantity,
+    commentsQuantity: comments.length,
     isWatchlist: Boolean(getRandomInteger()),
     isHistory: Boolean(getRandomInteger()),
     isFavorite: Boolean(getRandomInteger())

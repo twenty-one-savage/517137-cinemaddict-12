@@ -1,10 +1,31 @@
-export const createAppMostCommentedFilmsTemplate = () => {
-  return (
-    `
-      <section class="films-list--extra">
+import {createElement} from '../utils.js';
+
+const createAppMostCommentedFilmsTemplate = () => {
+  return `<section class="films-list--extra">
         <h2 class="films-list__title">Most Commented</h2>
         <div class="films-list__container"></div>
-      </section>
-    `
-  );
+      </section>`;
 };
+
+export default class FilmsMostCommentedView {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createAppMostCommentedFilmsTemplate();
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
+

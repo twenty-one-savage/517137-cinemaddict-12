@@ -1,5 +1,5 @@
 export const FilmsCount = {
-  MAIN: 22,
+  MAIN: 8,
   EXTRA: 2,
   PER_STEP: 5
 };

@@ -1,8 +1,8 @@
-export const createAppFilmTemplate = (film) => {
+import {createElement} from '../utils.js';
+
+const createAppFilmTemplate = (film) => {
   const {poster, name, rating, yearOfProduction, duration, genre, description, commentsQuantity} = film;
-  return (
-    `
-      <article class="film-card">
+  return `<article class="film-card">
         <h3 class="film-card__title">${name}</h3>
         <p class="film-card__rating">${rating}</p>
         <p class="film-card__info">
@@ -18,7 +18,28 @@ export const createAppFilmTemplate = (film) => {
           <button class="film-card__controls-item button film-card__controls-item--mark-as-watched">Mark as watched</button>
           <button class="film-card__controls-item button film-card__controls-item--favorite">Mark as favorite</button>
         </form>
-      </article>
-    `
-  );
+      </article>`;
 };
+
+export default class FilmView {
+  constructor(film) {
+    this._film = film;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createAppFilmTemplate(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
