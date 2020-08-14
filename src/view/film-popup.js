@@ -1,6 +1,6 @@
 import {createElement} from '../utils.js';
 
-export const createAppFilmPopupTemplate = (film) => {
+const createAppFilmPopupTemplate = (film) => {
   const {poster, name, rating, yearOfProduction, duration, genre, description, commentsQuantity} = film;
   return `<section class="film-details" >
     <form class="film-details__inner" action="" method="get">

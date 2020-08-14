@@ -6,35 +6,41 @@ import SortView from './view/sort.js';
 import FilmsListView from './view/films-list.js';
 import FilmView from './view/film.js';
 import BtnShowMoreView from './view/btn-show-more.js';
-import FilmPopupView from './view/film-popup.js';
+// import FilmPopupView from './view/film-popup.js';
 import FilmsInCategoryView from './view/films-in-category.js';
 import FilmsStatisticsView from './view/film-statistics.js';
 import {generateFilms} from './mock/film.js';
 import {generateFilter} from './mock/filter.js';
-import {renderElement, RenderPosition} from "./utils.js";
+import {render, RenderPosition} from "./utils.js";
 
 const films = generateFilms();
 
 const filters = generateFilter(films);
 
-const appHeaderElement = document.querySelector(`.header`);
+const renderFilm = (filmsListElement, film) => {
+  const filmComponent = new FilmView(film);
+  // const filmPopupComponent = new FilmPopupView(film);
 
-renderElement(appHeaderElement, new UserView().getElement(), RenderPosition.BEFOREEND);
+  render(filmsListElement, filmComponent.getElement(), RenderPosition.BEFOREEND);
+};
 
-const appMainElement = document.querySelector(`.main`);
+const appBodyElement = document.querySelector(`body`);
+const appHeaderElement = appBodyElement.querySelector(`.header`);
+const appMainElement = appBodyElement.querySelector(`.main`);
+const appFooterElement = appBodyElement.querySelector(`.footer`);
 
-renderElement(appMainElement, new SortView().getElement(), RenderPosition.AFTERBEGIN);
+render(appHeaderElement, new UserView().getElement(), RenderPosition.BEFOREEND);
 
-renderElement(appMainElement, new MainNavigationView(filters).getElement(), RenderPosition.AFTERBEGIN);
+render(appMainElement, new SortView().getElement(), RenderPosition.AFTERBEGIN);
 
-renderElement(appMainElement, new FilmsListView().getElement(), RenderPosition.BEFOREEND);
+render(appMainElement, new MainNavigationView(filters).getElement(), RenderPosition.AFTERBEGIN);
 
-const appFilmsElement = appMainElement.querySelector(`.films`);
-const appFilmsListElement = appFilmsElement.querySelector(`.films-list`);
-const appFilmsListContainerElement = appFilmsListElement.querySelector(`.films-list__container`);
+let filmsListComponent = new FilmsListView();
+
+render(appMainElement, filmsListComponent.getElement(), RenderPosition.BEFOREEND);
 
 for (let i = 0; i < Math.min(films.length, FilmsCount.PER_STEP); i++) {
-  renderElement(appFilmsListContainerElement, new FilmView(films[i]).getElement(), RenderPosition.BEFOREEND);
+  renderFilm(filmsListComponent.getElement().querySelector(`.films-list__container`), films[i]);
 }
 
 if (films.length > FilmsCount.PER_STEP) {
@@ -42,14 +48,14 @@ if (films.length > FilmsCount.PER_STEP) {
 
   const loadMoreButton = new BtnShowMoreView();
 
-  renderElement(appFilmsListElement, loadMoreButton.getElement(), RenderPosition.BEFOREEND);
+  render(filmsListComponent.getElement(), loadMoreButton.getElement(), RenderPosition.BEFOREEND);
 
 
   loadMoreButton.getElement().addEventListener(`click`, (evt) => {
     evt.preventDefault();
     films
       .slice(renderedFilmsCount, renderedFilmsCount + FilmsCount.PER_STEP)
-      .forEach((film) => renderElement(appFilmsListContainerElement, new FilmView(film).getElement(), RenderPosition.BEFOREEND));
+      .forEach((film) => renderFilm(filmsListComponent.getElement(), film));
 
     renderedFilmsCount += FilmsCount.PER_STEP;
 
@@ -59,23 +65,20 @@ if (films.length > FilmsCount.PER_STEP) {
 
   });
 }
-const appBodyElement = document.querySelector(`body`);
-
-renderElement(appBodyElement, new FilmView(films[getRandomInteger(0, films.length - 1)]).getPopupElement(), RenderPosition.BEFOREEND);
+// TODO: Popup
+// render(appBodyElement, new FilmView(films[getRandomInteger(0, films.length - 1)]).getPopupElement(), RenderPosition.BEFOREEND);
 
 for (let i = 0; i < NUMBER_OF_CATEGORIES; i++) {
-  renderElement(appFilmsElement, new FilmsInCategoryView(CATEGORIES[i]).getElement(), RenderPosition.BEFOREEND);
+  render(filmsListComponent.getElement(), new FilmsInCategoryView(CATEGORIES[i]).getElement(), RenderPosition.BEFOREEND);
 }
 
-const appFilmsExtraElements = appFilmsElement.querySelectorAll(`.films-list--extra`);
+const appFilmsExtraElements = filmsListComponent.getElement().querySelectorAll(`.films-list--extra`);
 
 for (let i = 0; i < appFilmsExtraElements.length; i++) {
   const el = appFilmsExtraElements[i].querySelector(`.films-list__container`);
   for (let j = 0; j < FilmsCount.EXTRA; j++) {
-    renderElement(el, new FilmView(films[getRandomInteger(0, films.length - 1)]).getElement(), RenderPosition.BEFOREEND);
+    render(el, new FilmView(films[getRandomInteger(0, films.length - 1)]).getElement(), RenderPosition.BEFOREEND);
   }
 }
 
-const appFooterElement = appBodyElement.querySelector(`.footer`);
-
-renderElement(appFooterElement, new FilmsStatisticsView().getElement(), RenderPosition.BEFOREEND);
+render(appFooterElement, new FilmsStatisticsView().getElement(), RenderPosition.BEFOREEND);
