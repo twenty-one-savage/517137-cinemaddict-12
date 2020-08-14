@@ -1,19 +1,20 @@
 import {createElement} from '../utils.js';
 
-const createAppMostCommentedFilmsTemplate = () => {
+const createFilmsCategoryTemplate = (category) => {
   return `<section class="films-list--extra">
-        <h2 class="films-list__title">Most Commented</h2>
+        <h2 class="films-list__title">${category}</h2>
         <div class="films-list__container"></div>
       </section>`;
 };
 
-export default class FilmsMostCommentedView {
-  constructor() {
+export default class FilmsInCategoryView {
+  constructor(category) {
+    this._category = category;
     this._element = null;
   }
 
   getTemplate() {
-    return createAppMostCommentedFilmsTemplate();
+    return createFilmsCategoryTemplate(this._category);
   }
 
   getElement() {
@@ -28,4 +29,3 @@ export default class FilmsMostCommentedView {
     this._element = null;
   }
 }
-

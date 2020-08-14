@@ -1,5 +1,5 @@
 import {getRandomInteger} from '../utils.js';
-import {FilmsCount, FilmOptions, genres} from '../consts.js';
+import {FilmsCount, FilmOptions, GENRES} from '../consts.js';
 
 const generateFilmName = () => {
   const filmNames = [
@@ -85,8 +85,8 @@ const generateFilmDuration = () => {
 };
 
 const genereateFilmGenre = () => {
-  const randomIndex = getRandomInteger(0, genres.length - 1);
-  return genres[randomIndex];
+  const randomIndex = getRandomInteger(0, GENRES.length - 1);
+  return GENRES[randomIndex];
 };
 
 const generateFilm = () => {
@@ -103,7 +103,9 @@ const generateFilm = () => {
     commentsQuantity: comments.length,
     isWatchlist: Boolean(getRandomInteger()),
     isHistory: Boolean(getRandomInteger()),
-    isFavorite: Boolean(getRandomInteger())
+    isFavorite: Boolean(getRandomInteger()),
+    isTopRated: Boolean(getRandomInteger()),
+    isMostCommented: Boolean(getRandomInteger())
   };
 };
 

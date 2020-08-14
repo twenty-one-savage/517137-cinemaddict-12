@@ -1,4 +1,5 @@
 import {createElement} from '../utils.js';
+import {createAppFilmPopupTemplate} from './film-popup.js';
 
 const createAppFilmTemplate = (film) => {
   const {poster, name, rating, yearOfProduction, duration, genre, description, commentsQuantity} = film;
@@ -25,6 +26,7 @@ export default class FilmView {
   constructor(film) {
     this._film = film;
     this._element = null;
+    this._popup = null;
   }
 
   getTemplate() {
@@ -37,6 +39,18 @@ export default class FilmView {
     }
 
     return this._element;
+  }
+
+  getPopup() {
+    return createAppFilmPopupTemplate(this._film);
+  }
+
+  getPopupElement() {
+    if (!this._popup) {
+      this._popup = createElement(this.getTemplate());
+    }
+
+    return this._popup;
   }
 
   removeElement() {

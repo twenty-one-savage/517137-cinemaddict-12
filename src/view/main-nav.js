@@ -9,7 +9,7 @@ const createFilterItemTemplate = (filter) => {
 
   return (
     `
-    <a href="#${deleteSpace(name).toLowerCase()}" class="main-navigation__item">${name}<span class="main-navigation__item-count">${count}</span></a>
+    <a href="#${deleteSpace(name).toLowerCase()}" class="main-navigation__item">${name} <span class="main-navigation__item-count">${count}</span></a>
     `
   );
 };

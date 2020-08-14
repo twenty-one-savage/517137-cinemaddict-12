@@ -1,3 +1,5 @@
+export const NUMBER_OF_CATEGORIES = 2;
+
 export const FilmsCount = {
   MAIN: 8,
   EXTRA: 2,
@@ -25,4 +27,6 @@ export const FilmOptions = {
   }
 };
 
-export const genres = [`Musical`, `Western`, ` Drama`, `Comedy`, `Cartoon`, `Mystery`];
+export const GENRES = [`Musical`, `Western`, ` Drama`, `Comedy`, `Cartoon`, `Mystery`];
+
+export const CATEGORIES = [`Top Rated`, `Most Commented`];
