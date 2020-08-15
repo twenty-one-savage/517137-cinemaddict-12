@@ -3,7 +3,9 @@ import {getRandomInteger} from './utils.js';
 import UserView from './view/user.js';
 import MainNavigationView from './view/main-nav.js';
 import SortView from './view/sort.js';
+import FilmsView from './view/films.js';
 import FilmsListView from './view/films-list.js';
+import FilmsContainerView from './view/films-container.js';
 import FilmView from './view/film.js';
 import BtnShowMoreView from './view/btn-show-more.js';
 import FilmPopupView from './view/film-popup.js';
@@ -72,13 +74,21 @@ render(appMainElement, new SortView().getElement(), RenderPosition.AFTERBEGIN);
 
 render(appMainElement, new MainNavigationView(filters).getElement(), RenderPosition.AFTERBEGIN);
 
+let filmsComponent = new FilmsView();
+
+render(appMainElement, filmsComponent.getElement(), RenderPosition.BEFOREEND);
+
 let filmsListComponent = new FilmsListView();
 
-render(appMainElement, filmsListComponent.getElement(), RenderPosition.BEFOREEND);
+render(filmsComponent.getElement(), filmsListComponent.getElement(), RenderPosition.BEFOREEND);
+
+let filmsContainerComponent = new FilmsContainerView();
+
+render(filmsListComponent.getElement(), filmsContainerComponent.getElement(), RenderPosition.BEFOREEND);
 
 if (films.length) {
   for (let i = 0; i < Math.min(films.length, FilmsCount.PER_STEP); i++) {
-    renderFilm(filmsListComponent.getElement().querySelector(`.films-list__container`), films[i]);
+    renderFilm(filmsContainerComponent.getElement(), films[i]);
   }
 
   if (films.length > FilmsCount.PER_STEP) {
@@ -93,7 +103,7 @@ if (films.length) {
       evt.preventDefault();
       films
         .slice(renderedFilmsCount, renderedFilmsCount + FilmsCount.PER_STEP)
-        .forEach((film) => renderFilm(filmsListComponent.getElement().querySelector(`.films-list__container`), film));
+        .forEach((film) => renderFilm(filmsContainerComponent.getElement(), film));
 
       renderedFilmsCount += FilmsCount.PER_STEP;
 
@@ -109,10 +119,10 @@ if (films.length) {
 }
 
 for (let i = 0; i < NUMBER_OF_CATEGORIES; i++) {
-  render(filmsListComponent.getElement(), new FilmsInCategoryView(CATEGORIES[i]).getElement(), RenderPosition.BEFOREEND);
+  render(filmsComponent.getElement(), new FilmsInCategoryView(CATEGORIES[i]).getElement(), RenderPosition.BEFOREEND);
 }
 
-const appFilmsExtraElements = filmsListComponent.getElement().querySelectorAll(`.films-list--extra`);
+const appFilmsExtraElements = filmsComponent.getElement().querySelectorAll(`.films-list--extra`);
 
 for (let i = 0; i < appFilmsExtraElements.length; i++) {
   const el = appFilmsExtraElements[i].querySelector(`.films-list__container`);
