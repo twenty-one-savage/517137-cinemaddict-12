@@ -1,11 +1,6 @@
 import {createElement, getRandomInteger} from '../utils.js';
+import {FilmsCount} from '../consts.js';
 
-const createAppFilmStatisticsTemplate = () => {
-  const filmsQuantity = getRandomInteger(0, 20000);
-  return `<section class="footer__statistics">
-      <p>${filmsQuantity} movies inside</p>
-    </section>`;
-};
 
 export default class FilmsStatisticsView {
   constructor() {
@@ -13,7 +8,10 @@ export default class FilmsStatisticsView {
   }
 
   getTemplate() {
-    return createAppFilmStatisticsTemplate();
+    const filmsQuantity = getRandomInteger(0, FilmsCount.ALL_FILMS);
+    return `<section class="footer__statistics">
+      <p>${filmsQuantity} movies inside</p>
+    </section>`;
   }
 
   getElement() {

@@ -3,13 +3,9 @@ import {createElement} from '../utils.js';
 const createFilterItemTemplate = (filter) => {
   let {name, count} = filter;
 
-  const deleteSpace = (str) => {
-    return str.replace(/\s/g, ``);
-  };
-
   return (
     `
-    <a href="#${deleteSpace(name).toLowerCase()}" class="main-navigation__item">${name} <span class="main-navigation__item-count">${count}</span></a>
+    <a href="#${name}" class="main-navigation__item">${name[0].toUpperCase() + name.slice(1)} <span class="main-navigation__item-count">${count}</span></a>
     `
   );
 };

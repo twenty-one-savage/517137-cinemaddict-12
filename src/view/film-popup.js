@@ -1,8 +1,23 @@
 import {createElement} from '../utils.js';
 
-const createAppFilmPopupTemplate = (film) => {
-  const {poster, name, rating, yearOfProduction, duration, genre, description, commentsQuantity} = film;
-  return `<section class="film-details" >
+export default class FilmPopupView {
+  constructor(film) {
+    this._film = film;
+    this._element = null;
+  }
+
+  getTemplate(film) {
+    const {
+      poster,
+      name,
+      rating,
+      yearOfProduction,
+      duration,
+      genre,
+      description,
+      commentsQuantity
+    } = film;
+    return `<section class="film-details">
     <form class="film-details__inner" action="" method="get">
       <div class="form-details__top-container">
         <div class="film-details__close">
@@ -171,21 +186,11 @@ const createAppFilmPopupTemplate = (film) => {
       </div>
     </form>
   </section>`;
-};
-
-export default class FilmPopupView {
-  constructor(film) {
-    this._film = film;
-    this._element = null;
-  }
-
-  getTemplate() {
-    return createAppFilmPopupTemplate(this._film);
   }
 
   getElement() {
     if (!this._element) {
-      this._element = createElement(this.getTemplate());
+      this._element = createElement(this.getTemplate(this._film));
     }
 
     return this._element;

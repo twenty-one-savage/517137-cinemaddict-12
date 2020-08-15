@@ -3,7 +3,8 @@ export const NUMBER_OF_CATEGORIES = 2;
 export const FilmsCount = {
   MAIN: 8,
   EXTRA: 2,
-  PER_STEP: 5
+  PER_STEP: 5,
+  ALL_FILMS: 20000
 };
 
 export const FilmOptions = {
