@@ -21,8 +21,9 @@ const allFilms = generateFilms();
 const filters = generateFilter(allFilms);
 
 const renderFilm = (filmsListElement, film) => {
+  let {comments} = film;
   const filmComponent = new FilmView(film);
-  const filmPopupComponent = new FilmPopupView(film);
+  const filmPopupComponent = new FilmPopupView(film, comments);
 
   const showPopup = () => {
     filmsListElement.appendChild(filmPopupComponent.getElement());

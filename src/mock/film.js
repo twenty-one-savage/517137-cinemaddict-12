@@ -1,5 +1,5 @@
 import {getRandomInteger} from '../utils.js';
-import {FilmsCount, FilmOptions, GENRES} from '../consts.js';
+import {FilmsCount, FilmOptions, GENRES, generateDate} from '../consts.js';
 
 const generateFilmName = () => {
   const filmNames = [
@@ -54,14 +54,22 @@ const generateDescription = () => {
 };
 
 const generateComments = () => {
+
+  const CommentsMap = {
+    TEXT: [`Interesting setting and a good cast`, `Booooooooooring`, `Very very old. Meh`, `Almost two hours? Seriously?`],
+    EMOJI: [`angry.png`, `puke.png`, `sleeping.png`, `smile.png`],
+    AUTHOR: [`Tim Macoveev`, `John Doe`],
+    DATE: null
+  };
+
   const comments = [];
 
   for (let i = 0; i < getRandomInteger(0, 5); i++) {
     comments.push({
-      text: null,
-      emoji: null,
-      author: null,
-      date: null,
+      text: CommentsMap.TEXT[getRandomInteger(0, CommentsMap.TEXT.length - 1)],
+      emoji: CommentsMap.EMOJI[getRandomInteger(0, CommentsMap.EMOJI.length - 1)],
+      author: CommentsMap.AUTHOR[getRandomInteger(0, CommentsMap.AUTHOR.length - 1)],
+      date: generateDate(),
     });
   }
   return comments;
@@ -85,13 +93,12 @@ const generateFilmDuration = () => {
 };
 
 const genereateFilmGenre = () => {
-  const randomIndex = getRandomInteger(0, GENRES.length - 1);
-  return GENRES[randomIndex];
+  // const randomIndex = getRandomInteger(0, GENRES.length - 1);
+  return GENRES.sort(() => 0.5 - Math.random()).slice(getRandomInteger(0, GENRES.length - 1));
 };
 
 const generateFilm = () => {
   const comments = generateComments();
-
   return {
     poster: generateFilmPoster(),
     name: generateFilmName(),
@@ -101,6 +108,7 @@ const generateFilm = () => {
     genre: genereateFilmGenre(),
     description: generateDescription(),
     commentsQuantity: comments.length,
+    comments,
     isWatchlist: Boolean(getRandomInteger()),
     isHistory: Boolean(getRandomInteger()),
     isFavorite: Boolean(getRandomInteger()),
