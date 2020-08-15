@@ -7,7 +7,7 @@ const createFilmsCategoryTemplate = (category) => {
       </section>`;
 };
 
-export default class FilmsInCategoryView {
+export default class FilmsExtraView {
   constructor(category) {
     this._category = category;
     this._element = null;
