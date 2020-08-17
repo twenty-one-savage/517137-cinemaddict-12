@@ -1,5 +1,5 @@
 import {getRandomInteger} from '../utils.js';
-import {FilmsCount, FilmOptions, genres} from '../consts.js';
+import {FilmsCount, FilmOptions, GENRES, generateDate} from '../consts.js';
 
 const generateFilmName = () => {
   const filmNames = [
@@ -34,16 +34,45 @@ const generateFilmPoster = () => {
 };
 
 const generateDescription = () => {
-  const descriptions = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`.split(`. `);
+  const descriptions = [
+    `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
+    `Cras aliquet varius magna, non porta ligula feugiat eget.`,
+    `Fusce tristique felis at fermentum pharetra.`,
+    `Aliquam id orci ut lectus varius viverra.`,
+    `Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.`,
+    `Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.`,
+    `Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.`,
+    `Sed sed nisi sed augue convallis suscipit in sed felis.`,
+    `Aliquam erat volutpat.`,
+    `Nunc fermentum tortor ac porta dapibus.`,
+    `In rutrum ac purus sit amet tempus.`
+  ];
 
-  const randomIndex = getRandomInteger(0, descriptions.length - 1);
+  let description = descriptions.sort(() => 0.5 - Math.random()).slice(0, 5).join(` `);
 
-  return descriptions[randomIndex];
+  return description;
 };
 
-// TODO: пока не разобрался как правильно их выводить
-const generateCommentsQuantity = () => {
-  return getRandomInteger(0, 5);
+const generateComments = () => {
+
+  const CommentsMap = {
+    TEXT: [`Interesting setting and a good cast`, `Booooooooooring`, `Very very old. Meh`, `Almost two hours? Seriously?`],
+    EMOJI: [`angry.png`, `puke.png`, `sleeping.png`, `smile.png`],
+    AUTHOR: [`Tim Macoveev`, `John Doe`],
+    DATE: null
+  };
+
+  const comments = [];
+
+  for (let i = 0; i < getRandomInteger(0, 5); i++) {
+    comments.push({
+      text: CommentsMap.TEXT[getRandomInteger(0, CommentsMap.TEXT.length - 1)],
+      emoji: CommentsMap.EMOJI[getRandomInteger(0, CommentsMap.EMOJI.length - 1)],
+      author: CommentsMap.AUTHOR[getRandomInteger(0, CommentsMap.AUTHOR.length - 1)],
+      date: generateDate(),
+    });
+  }
+  return comments;
 };
 
 const generateFilmRating = () => {
@@ -64,11 +93,12 @@ const generateFilmDuration = () => {
 };
 
 const genereateFilmGenre = () => {
-  const randomIndex = getRandomInteger(0, genres.length - 1);
-  return genres[randomIndex];
+  // const randomIndex = getRandomInteger(0, GENRES.length - 1);
+  return GENRES.sort(() => 0.5 - Math.random()).slice(getRandomInteger(0, GENRES.length - 1));
 };
 
 const generateFilm = () => {
+  const comments = generateComments();
   return {
     poster: generateFilmPoster(),
     name: generateFilmName(),
@@ -77,10 +107,13 @@ const generateFilm = () => {
     duration: generateFilmDuration(),
     genre: genereateFilmGenre(),
     description: generateDescription(),
-    commentsQuantity: generateCommentsQuantity(),
+    commentsQuantity: comments.length,
+    comments,
     isWatchlist: Boolean(getRandomInteger()),
     isHistory: Boolean(getRandomInteger()),
-    isFavorite: Boolean(getRandomInteger())
+    isFavorite: Boolean(getRandomInteger()),
+    isTopRated: Boolean(getRandomInteger()),
+    isMostCommented: Boolean(getRandomInteger())
   };
 };
 

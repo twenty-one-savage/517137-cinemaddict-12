@@ -1,11 +1,28 @@
-import {getRandomInteger} from '../utils.js';
+import {createElement, getRandomInteger} from '../utils.js';
+import {FilmsCount} from '../consts.js';
 
-export const createAppFilmStatisticsTemplate = () => {
-  const filmsQuantity = getRandomInteger(0, 20000);
-  return (
-    `<section class="footer__statistics">
+
+export default class FilmsStatisticsView {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    const filmsQuantity = getRandomInteger(0, FilmsCount.ALL_FILMS);
+    return `<section class="footer__statistics">
       <p>${filmsQuantity} movies inside</p>
-    </section>
-  `
-  );
-};
+    </section>`;
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

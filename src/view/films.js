@@ -1,16 +1,12 @@
 import {createElement} from '../utils.js';
 
-export default class SortView {
+export default class FilmsView {
   constructor() {
     this._element = null;
   }
 
   getTemplate() {
-    return `<ul class="sort">
-      <li><a href="#" class="sort__button sort__button--active">Sort by default</a></li>
-      <li><a href="#" class="sort__button">Sort by date</a></li>
-      <li><a href="#" class="sort__button">Sort by rating</a></li>
-    </ul>`;
+    return `<section class="films"></section>`;
   }
 
   getElement() {
