@@ -1,20 +1,20 @@
-import {FilmsCount, CATEGORIES, NUMBER_OF_CATEGORIES} from './consts.js';
-import {getRandomInteger} from './utils.js';
-import UserView from './view/user.js';
-import MainNavigationView from './view/main-nav.js';
-import SortView from './view/sort.js';
-import FilmsView from './view/films.js';
-import FilmsListView from './view/films-list.js';
-import FilmsContainerView from './view/films-container.js';
-import FilmView from './view/film.js';
-import BtnShowMoreView from './view/btn-show-more.js';
-import FilmPopupView from './view/film-popup.js';
-import FilmsExtraView from './view/films-extra.js';
-import FilmsStatisticsView from './view/film-statistics.js';
-import NoFilmsView from './view/no-films.js';
-import {generateFilms} from './mock/film.js';
-import {generateFilter} from './mock/filter.js';
-import {render, RenderPosition} from "./utils.js";
+import {FilmsCount, CATEGORIES, NUMBER_OF_CATEGORIES} from './consts';
+import {getRandomInteger} from './utils';
+import UserView from './view/user';
+import MainNavigationView from './view/main-nav';
+import SortView from './view/sort';
+import FilmsView from './view/films';
+import FilmsListView from './view/films-list';
+import FilmsContainerView from './view/films-container';
+import FilmView from './view/film';
+import BtnShowMoreView from './view/btn-show-more';
+import FilmPopupView from './view/film-popup';
+import FilmsExtraView from './view/films-extra';
+import FilmsStatisticsView from './view/film-statistics';
+import NoFilmsView from './view/no-films';
+import {generateFilms} from './mock/film';
+import {generateFilter} from './mock/filter';
+import {render, RenderPosition} from "./utils";
 
 const allFilms = generateFilms();
 
