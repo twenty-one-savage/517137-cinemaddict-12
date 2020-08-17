@@ -1,28 +1,14 @@
-import {createElement, getRandomInteger} from '../utils.js';
-import {FilmsCount} from '../consts.js';
+import AbstractView from './absrtact';
+import {getRandomInteger} from '../utils';
+import {FilmsCount} from '../consts';
 
 
-export default class FilmsStatisticsView {
-  constructor() {
-    this._element = null;
-  }
+export default class FilmsStatisticsView extends AbstractView {
 
   getTemplate() {
     const filmsQuantity = getRandomInteger(0, FilmsCount.ALL_FILMS);
     return `<section class="footer__statistics">
       <p>${filmsQuantity} movies inside</p>
     </section>`;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

@@ -93,7 +93,6 @@ const generateFilmDuration = () => {
 };
 
 const genereateFilmGenre = () => {
-  // const randomIndex = getRandomInteger(0, GENRES.length - 1);
   return GENRES.sort(() => 0.5 - Math.random()).slice(getRandomInteger(0, GENRES.length - 1));
 };
 
