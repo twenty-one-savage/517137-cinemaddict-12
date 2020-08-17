@@ -13,7 +13,7 @@ export default class FilmView extends AbstractView {
       rating,
       yearOfProduction,
       duration,
-      genre,
+      genres,
       description,
       commentsQuantity
     } = this._film;
@@ -24,7 +24,7 @@ export default class FilmView extends AbstractView {
       <p class="film-card__info">
         <span class="film-card__year">${yearOfProduction}</span>
         <span class="film-card__duration">${duration.hours}h ${duration.minutes}m</span>
-        <span class="film-card__genre">${genre[0]}</span>
+        <span class="film-card__genre">${genres[0]}</span>
       </p>
       <img src="./images/posters/${poster}" alt="" class="film-card__poster">
       <p class="film-card__description">${description}</p>

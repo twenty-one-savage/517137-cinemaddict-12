@@ -36,21 +36,6 @@ export default class FilmPopupView extends AbstractView {
       return commentsList;
     };
 
-
-    const createGenreItem = (genre) => {
-      return `<span class="film-details__genre">${genre}</span>`;
-    };
-
-    const fillGenresList = (genres) => {
-
-      let genresList = ``;
-      for (let genre of genres) {
-        genresList = genresList.concat(createGenreItem(genre));
-      }
-
-      return genresList;
-    };
-
     const createCommentsTemplate = (comments) => {
 
       return `<div class="form-details__bottom-container">
@@ -101,7 +86,7 @@ export default class FilmPopupView extends AbstractView {
       rating,
       yearOfProduction,
       duration,
-      genre,
+      genres,
       comments,
       description,
     } = this._film;
@@ -159,7 +144,7 @@ export default class FilmPopupView extends AbstractView {
               <tr class="film-details__row">
                 <td class="film-details__term">Genres</td>
                 <td class="film-details__cell">
-                  ${fillGenresList(genre)}
+                  <span class="film-details__genre">${genres.join(` `)}</span>
                 </td>
               </tr>
             </table>
