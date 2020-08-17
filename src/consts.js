@@ -1,4 +1,4 @@
-import { getRandomInteger } from "./utils";
+import {getRandomInteger} from "./utils";
 
 export const NUMBER_OF_CATEGORIES = 2;
 

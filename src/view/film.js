@@ -1,12 +1,12 @@
-import {createElement} from '../utils.js';
+import AbstractView from './absrtact';
 
-export default class FilmView {
+export default class FilmView extends AbstractView {
   constructor(film) {
+    super();
     this._film = film;
-    this._element = null;
   }
 
-  getTemplate(film) {
+  getTemplate() {
     const {
       poster,
       name,
@@ -16,7 +16,7 @@ export default class FilmView {
       genre,
       description,
       commentsQuantity
-    } = film;
+    } = this._film;
 
     return `<article class="film-card">
       <h3 class="film-card__title">${name}</h3>
@@ -35,17 +35,5 @@ export default class FilmView {
         <button class="film-card__controls-item button film-card__controls-item--favorite">Mark as favorite</button>
       </form>
     </article>`;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate(this._film));
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

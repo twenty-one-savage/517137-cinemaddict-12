@@ -1,13 +1,13 @@
-import {createElement} from '../utils.js';
+import AbstractView from './absrtact';
 
-export default class FilmPopupView {
+export default class FilmPopupView extends AbstractView {
   constructor(film, comments) {
+    super();
     this._film = film;
     this._comments = comments;
-    this._element = null;
   }
 
-  getTemplate(film) {
+  getTemplate() {
 
     const createCommentsItem = (item) => {
       return `<li class="film-details__comment">
@@ -104,7 +104,7 @@ export default class FilmPopupView {
       genre,
       comments,
       description,
-    } = film;
+    } = this._film;
 
     return `<section class="film-details">
     <form class="film-details__inner" action="" method="get">
@@ -184,17 +184,5 @@ export default class FilmPopupView {
       ${createCommentsTemplate(comments)}
     </form>
   </section>`;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate(this._film));
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
