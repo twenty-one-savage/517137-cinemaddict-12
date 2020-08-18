@@ -1,4 +1,4 @@
-import {createElement} from '../utils.js';
+import {createElement} from '../utils';
 
 export default class FilmPopupView {
   constructor(film, comments) {
@@ -34,21 +34,6 @@ export default class FilmPopupView {
       }
 
       return commentsList;
-    };
-
-
-    const createGenreItem = (genre) => {
-      return `<span class="film-details__genre">${genre}</span>`;
-    };
-
-    const fillGenresList = (genres) => {
-
-      let genresList = ``;
-      for (let genre of genres) {
-        genresList = genresList.concat(createGenreItem(genre));
-      }
-
-      return genresList;
     };
 
     const createCommentsTemplate = (comments) => {
@@ -101,7 +86,7 @@ export default class FilmPopupView {
       rating,
       yearOfProduction,
       duration,
-      genre,
+      genres,
       comments,
       description,
     } = film;
@@ -159,7 +144,7 @@ export default class FilmPopupView {
               <tr class="film-details__row">
                 <td class="film-details__term">Genres</td>
                 <td class="film-details__cell">
-                  ${fillGenresList(genre)}
+                  <span class="film-details__genre">${genres.join(` `)}</span>
                 </td>
               </tr>
             </table>

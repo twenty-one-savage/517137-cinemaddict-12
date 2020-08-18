@@ -1,5 +1,5 @@
-import {createElement, getRandomInteger} from '../utils.js';
-import {FilmsCount} from '../consts.js';
+import {createElement, getRandomInteger} from '../utils';
+import {FilmsCount} from '../consts';
 
 
 export default class FilmsStatisticsView {
