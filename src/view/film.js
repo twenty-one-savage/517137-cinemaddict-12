@@ -3,7 +3,10 @@ import AbstractView from './absrtact';
 export default class FilmView extends AbstractView {
   constructor(film) {
     super();
+
     this._film = film;
+    this._titleClickHandler = this._titleClickHandler.bind(this);
+    this._posterClickHandler = this._posterClickHandler.bind(this);
   }
 
   getTemplate() {
@@ -36,4 +39,25 @@ export default class FilmView extends AbstractView {
       </form>
     </article>`;
   }
+
+  _titleClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.titleClick();
+  }
+
+  setTitleClickHandler(callback) {
+    this._callback.titleClick = callback;
+    this.getElement().querySelector(`.film-card__title`).addEventListener(`click`, this._titleClickHandler);
+  }
+
+  _posterClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.posterClick();
+  }
+
+  setPosterClickHandler(callback) {
+    this._callback.posterClick = callback;
+    this.getElement().querySelector(`.film-card__poster`).addEventListener(`click`, this._posterClickHandler);
+  }
+
 }

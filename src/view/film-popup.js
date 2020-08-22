@@ -5,6 +5,8 @@ export default class FilmPopupView extends AbstractView {
     super();
     this._film = film;
     this._comments = comments;
+    this._formSubmitHandler = this._formSubmitHandler.bind(this);
+    this._closeBtnClickHandler = this._closeBtnClickHandler.bind(this);
   }
 
   getTemplate() {
@@ -169,5 +171,25 @@ export default class FilmPopupView extends AbstractView {
       ${createCommentsTemplate(comments)}
     </form>
   </section>`;
+  }
+
+  _closeBtnClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.closeBtnClick();
+  }
+
+  setCloseBtnClickHandler(callback) {
+    this._callback.closeBtnClick = callback;
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._closeBtnClickHandler);
+  }
+
+  _formSubmitHandler(evt) {
+    evt.preventDefault();
+    this._callback.formSubmit();
+  }
+
+  setFormSubmitHandler(callback) {
+    this._callback.formSubmit = callback;
+    this.getElement().querySelector(`form`).addEventListener(`submit`, this._formSubmitHandler);
   }
 }
