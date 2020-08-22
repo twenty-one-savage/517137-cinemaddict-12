@@ -1,4 +1,4 @@
-import {getRandomInteger} from '../utils';
+import {getRandomInteger} from '../utils/common';
 import {FilmsCount, FilmOptions, GENRES, generateDate} from '../consts';
 
 const generateFilmName = () => {

@@ -1,5 +1,5 @@
 import AbstractView from './absrtact';
-import {getRandomInteger} from '../utils';
+import {getRandomInteger} from '../utils/common';
 import {FilmsCount} from '../consts';
 
 

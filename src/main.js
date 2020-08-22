@@ -1,5 +1,5 @@
 import {FilmsCount, CATEGORIES, NUMBER_OF_CATEGORIES} from './consts';
-import {getRandomInteger} from './utils';
+import {getRandomInteger} from './utils/common';
 import UserView from './view/user';
 import MainNavigationView from './view/main-nav';
 import SortView from './view/sort';
@@ -14,7 +14,7 @@ import FilmsStatisticsView from './view/film-statistics';
 import NoFilmsView from './view/no-films';
 import {generateFilms} from './mock/film';
 import {generateFilter} from './mock/filter';
-import {render, RenderPosition} from "./utils";
+import {render, RenderPosition, remove} from "./utils/render";
 
 const allFilms = generateFilms();
 
@@ -60,7 +60,7 @@ const renderFilm = (filmsListElement, film) => {
     closePopup();
   });
 
-  render(filmsListElement, filmComponent.getElement(), RenderPosition.BEFOREEND);
+  render(filmsListElement, filmComponent, RenderPosition.BEFOREEND);
 };
 
 const appBodyElement = document.querySelector(`body`);
@@ -68,34 +68,34 @@ const appHeaderElement = appBodyElement.querySelector(`.header`);
 const appMainElement = appBodyElement.querySelector(`.main`);
 const appFooterElement = appBodyElement.querySelector(`.footer`);
 
-render(appHeaderElement, new UserView().getElement(), RenderPosition.BEFOREEND);
+render(appHeaderElement, new UserView(), RenderPosition.BEFOREEND);
 
-render(appMainElement, new SortView().getElement(), RenderPosition.AFTERBEGIN);
+render(appMainElement, new SortView(), RenderPosition.AFTERBEGIN);
 
-render(appMainElement, new MainNavigationView(filters).getElement(), RenderPosition.AFTERBEGIN);
+render(appMainElement, new MainNavigationView(filters), RenderPosition.AFTERBEGIN);
 
 const renderFilms = (filmsContainer, films) => {
   const filmsComponent = new FilmsView();
   const filmsListComponent = new FilmsListView();
   const filmsContainerComponent = new FilmsContainerView();
 
-  render(filmsContainer, filmsComponent.getElement(), RenderPosition.BEFOREEND);
+  render(filmsContainer, filmsComponent, RenderPosition.BEFOREEND);
 
-  render(filmsComponent.getElement(), filmsListComponent.getElement(), RenderPosition.BEFOREEND);
+  render(filmsComponent, filmsListComponent, RenderPosition.BEFOREEND);
 
-  render(filmsListComponent.getElement(), filmsContainerComponent.getElement(), RenderPosition.BEFOREEND);
+  render(filmsListComponent, filmsContainerComponent, RenderPosition.BEFOREEND);
 
   if (films.length) {
-    for (let i = 0; i < Math.min(films.length, FilmsCount.PER_STEP); i++) {
-      renderFilm(filmsContainerComponent.getElement(), films[i]);
-    }
+    films
+      .slice(0, Math.min(films.length, FilmsCount.PER_STEP))
+      .forEach((film) => renderFilm(filmsContainerComponent.getElement(), film));
 
     if (films.length > FilmsCount.PER_STEP) {
       let renderedFilmsCount = FilmsCount.PER_STEP;
 
       const loadMoreButtonComponent = new BtnShowMoreView();
 
-      render(filmsListComponent.getElement(), loadMoreButtonComponent.getElement(), RenderPosition.BEFOREEND);
+      render(filmsListComponent, loadMoreButtonComponent, RenderPosition.BEFOREEND);
 
 
       loadMoreButtonComponent.setBtnClickHandler(() => {
@@ -106,18 +106,17 @@ const renderFilms = (filmsContainer, films) => {
         renderedFilmsCount += FilmsCount.PER_STEP;
 
         if (renderedFilmsCount >= films.length) {
-          loadMoreButtonComponent.getElement().remove();
-          loadMoreButtonComponent.removeElement();
+          remove(loadMoreButtonComponent);
         }
 
       });
     }
   } else {
-    render(filmsListComponent.getElement(), new NoFilmsView().getElement(), RenderPosition.AFTERBEGIN);
+    render(filmsListComponent, new NoFilmsView(), RenderPosition.AFTERBEGIN);
   }
 
   for (let i = 0; i < NUMBER_OF_CATEGORIES; i++) {
-    render(filmsComponent.getElement(), new FilmsExtraView(CATEGORIES[i]).getElement(), RenderPosition.BEFOREEND);
+    render(filmsComponent, new FilmsExtraView(CATEGORIES[i]), RenderPosition.BEFOREEND);
   }
 
   const appFilmsExtraElements = filmsComponent.getElement().querySelectorAll(`.films-list--extra`);
@@ -133,4 +132,4 @@ const renderFilms = (filmsContainer, films) => {
 
 renderFilms(appMainElement, allFilms);
 
-render(appFooterElement, new FilmsStatisticsView().getElement(), RenderPosition.BEFOREEND);
+render(appFooterElement, new FilmsStatisticsView(), RenderPosition.BEFOREEND);
