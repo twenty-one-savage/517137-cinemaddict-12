@@ -56,3 +56,9 @@ export const generateDate = () => {
 
   return formatDate();
 };
+
+export const SortType = {
+  DEFAULT: `default`,
+  DATE: `date`,
+  RATING: `rating`
+};
