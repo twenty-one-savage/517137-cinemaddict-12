@@ -2,7 +2,7 @@ import UserView from './view/user';
 import MainNavigationView from './view/main-nav';
 import SortView from './view/sort';
 import FilmsStatisticsView from './view/film-statistics';
-import FilmsContainerPresenter from './presenter/films';
+import MovieList from './presenter/movie-list';
 import {generateFilms} from './mock/film';
 import {generateFilter} from './mock/filter';
 import {render, RenderPosition} from "./utils/render";
@@ -22,7 +22,7 @@ render(appMainElement, new SortView(), RenderPosition.AFTERBEGIN);
 
 render(appMainElement, new MainNavigationView(filters), RenderPosition.AFTERBEGIN);
 
-const filmsContainerPresenter = new FilmsContainerPresenter(appMainElement);
+const filmsContainerPresenter = new MovieList(appMainElement);
 filmsContainerPresenter.init(allFilms);
 
 render(appFooterElement, new FilmsStatisticsView(), RenderPosition.BEFOREEND);

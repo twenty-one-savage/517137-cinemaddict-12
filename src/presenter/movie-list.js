@@ -22,10 +22,11 @@ import {
 import {getRandomInteger} from '../utils/common';
 
 
-export default class FilmsContainerPresenter {
+export default class MovieList {
 
   constructor(container) {
     this._container = container;
+    this._renderedFilmsCount = FilmsCount.PER_STEP;
 
     this._filmsComponent = new FilmsView();
     this._filmsListComponent = new FilmsListView();
@@ -33,6 +34,9 @@ export default class FilmsContainerPresenter {
     this._noFilmsComponent = new NoFilmsView();
     this._filmComponent = new FilmView();
     this._filmPopupComponent = new FilmPopupView();
+    this._btnShowMoreComponent = new BtnShowMoreView();
+
+    this._handleBtnShowMoreClick = this._handleBtnShowMoreClick.bind(this);
 
   }
 
@@ -99,26 +103,21 @@ export default class FilmsContainerPresenter {
     render(this._filmsListComponent, this._noFilmsComponent, RenderPosition.AFTERBEGIN);
   }
 
+  _handleBtnShowMoreClick() {
+    this._renderFilms(this._renderedFilmsCount, this._renderedFilmsCount + FilmsCount.PER_STEP);
+    this._renderedFilmsCount += FilmsCount.PER_STEP;
+
+    if (this._renderedFilmsCount >= this._films.length) {
+      remove(this._btnShowMoreComponent);
+    }
+  }
+
   _renderBtnShowMore() {
 
-    let btnShowMoreComponent = new BtnShowMoreView();
-
-    let renderedFilmsCount = FilmsCount.PER_STEP;
-    render(this._filmsListComponent, btnShowMoreComponent, RenderPosition.BEFOREEND);
+    render(this._filmsListComponent, this._btnShowMoreComponent, RenderPosition.BEFOREEND);
 
 
-    btnShowMoreComponent.setBtnClickHandler(() => {
-      this._films
-        .slice(renderedFilmsCount, renderedFilmsCount + FilmsCount.PER_STEP)
-        .forEach((film) => this._renderFilm(film));
-
-      renderedFilmsCount += FilmsCount.PER_STEP;
-
-      if (renderedFilmsCount >= this._films.length) {
-        remove(btnShowMoreComponent);
-      }
-
-    });
+    this._btnShowMoreComponent.setBtnClickHandler(this._handleBtnShowMoreClick);
   }
 
   _renderFilmsExtra() {
