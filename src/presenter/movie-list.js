@@ -6,6 +6,7 @@ import BtnShowMoreView from '../view/btn-show-more';
 import FilmPopupView from '../view/film-popup';
 import FilmsExtraView from '../view/films-extra';
 import NoFilmsView from '../view/no-films';
+import SortView from '../view/sort';
 
 import {
   FilmsCount,
@@ -35,6 +36,7 @@ export default class MovieList {
     this._filmComponent = new FilmView();
     this._filmPopupComponent = new FilmPopupView();
     this._btnShowMoreComponent = new BtnShowMoreView();
+    this._sortComponent = new SortView();
 
     this._handleBtnShowMoreClick = this._handleBtnShowMoreClick.bind(this);
 
@@ -42,12 +44,16 @@ export default class MovieList {
 
   init(films) {
     this._films = films.slice();
-
+    this._renderSort();
     render(this._container, this._filmsComponent, RenderPosition.BEFOREEND);
     render(this._filmsComponent, this._filmsListComponent, RenderPosition.BEFOREEND);
     render(this._filmsListComponent, this._filmsContainerComponent, RenderPosition.BEFOREEND);
 
     this._renderFilmsContainer();
+  }
+
+  _renderSort() {
+    render(this._container, this._sortComponent, RenderPosition.BEFOREEND);
   }
 
   _renderFilm(film, containerElement = this._filmsContainerComponent) {

@@ -2,7 +2,7 @@ import AbstractView from '../view/absrtact';
 
 export const RenderPosition = {
   AFTERBEGIN: `afterbegin`,
-  BEFOREEND: `beforeend`
+  BEFOREEND: `beforeend`,
 };
 
 export const render = (container, child, place) => {

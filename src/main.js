@@ -1,6 +1,5 @@
 import UserView from './view/user';
 import MainNavigationView from './view/main-nav';
-import SortView from './view/sort';
 import FilmsStatisticsView from './view/film-statistics';
 import MovieList from './presenter/movie-list';
 import {generateFilms} from './mock/film';
@@ -17,8 +16,6 @@ const appMainElement = appBodyElement.querySelector(`.main`);
 const appFooterElement = appBodyElement.querySelector(`.footer`);
 
 render(appHeaderElement, new UserView(), RenderPosition.BEFOREEND);
-
-render(appMainElement, new SortView(), RenderPosition.AFTERBEGIN);
 
 render(appMainElement, new MainNavigationView(filters), RenderPosition.AFTERBEGIN);
 
