@@ -1,3 +1,4 @@
+
 import AbstractView from './absrtact.js';
 
 export default class NoFilmsView extends AbstractView {
