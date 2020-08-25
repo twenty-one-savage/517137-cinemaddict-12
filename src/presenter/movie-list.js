@@ -7,11 +7,13 @@ import FilmPopupView from '../view/film-popup';
 import FilmsExtraView from '../view/films-extra';
 import NoFilmsView from '../view/no-films';
 import SortView from '../view/sort';
+import {sortFilmDate, sortFilmRating} from "../utils/film";
 
 import {
   FilmsCount,
   CATEGORIES,
-  NUMBER_OF_CATEGORIES
+  NUMBER_OF_CATEGORIES,
+  SortType
 } from '../consts';
 
 import {
@@ -37,13 +39,18 @@ export default class MovieList {
     this._filmPopupComponent = new FilmPopupView();
     this._btnShowMoreComponent = new BtnShowMoreView();
     this._sortComponent = new SortView();
+    this._currenSortType = SortType.DEFAULT;
 
     this._handleBtnShowMoreClick = this._handleBtnShowMoreClick.bind(this);
+
+    this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
 
   }
 
   init(films) {
     this._films = films.slice();
+    this._sourcedFilms = films.slice();
+
     this._renderSort();
     render(this._container, this._filmsComponent, RenderPosition.BEFOREEND);
     render(this._filmsComponent, this._filmsListComponent, RenderPosition.BEFOREEND);
@@ -54,6 +61,7 @@ export default class MovieList {
 
   _renderSort() {
     render(this._container, this._sortComponent, RenderPosition.BEFOREEND);
+    this._sortComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
   }
 
   _renderFilm(film, containerElement = this._filmsContainerComponent) {
@@ -161,5 +169,36 @@ export default class MovieList {
     }
 
   }
+
+  _handleSortTypeChange(sortType) {
+    if (this._currenSortType === sortType) {
+      return;
+    }
+    this._sortFilms(sortType);
+
+    this._clearFilmsBoard();
+    this._renderFilmsContainer();
+  }
+
+  _sortFilms(sortType) {
+    switch (sortType) {
+      case SortType.RATING:
+        this._films.sort(sortFilmRating).reverse();
+        break;
+      case SortType.DATE:
+        this._films.sort(sortFilmDate).reverse();
+        break;
+      default:
+        this._films = this._sourcedFilms.slice();
+    }
+
+    this._currenSortType = sortType;
+  }
+
+  _clearFilmsBoard() {
+    this._filmsContainerComponent.getElement().innerHTML = ``;
+    this._renderedFilmsCount = FilmsCount.PER_STEP;
+  }
+
 
 }

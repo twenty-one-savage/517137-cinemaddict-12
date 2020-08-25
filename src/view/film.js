@@ -40,19 +40,10 @@ export default class FilmView extends AbstractView {
     </article>`;
   }
 
-  _titleClickHandler(evt) {
-    evt.preventDefault();
-    this._callback.titleClick();
-  }
 
   setTitleClickHandler(callback) {
     this._callback.titleClick = callback;
     this.getElement().querySelector(`.film-card__title`).addEventListener(`click`, this._titleClickHandler);
-  }
-
-  _posterClickHandler(evt) {
-    evt.preventDefault();
-    this._callback.posterClick();
   }
 
   setPosterClickHandler(callback) {
@@ -60,4 +51,13 @@ export default class FilmView extends AbstractView {
     this.getElement().querySelector(`.film-card__poster`).addEventListener(`click`, this._posterClickHandler);
   }
 
+  _titleClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.titleClick();
+  }
+
+  _posterClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.posterClick();
+  }
 }
