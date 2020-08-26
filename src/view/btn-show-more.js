@@ -11,13 +11,14 @@ export default class BtnShowMoreView extends AbstractView {
     return `<button class="films-list__show-more">Show more</button>`;
   }
 
-  _btnClickHandler(evt) {
-    evt.preventDefault();
-    this._callback.click();
-  }
 
   setBtnClickHandler(callback) {
     this._callback.click = callback;
     this.getElement().addEventListener(`click`, this._btnClickHandler);
+  }
+
+  _btnClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.click();
   }
 }

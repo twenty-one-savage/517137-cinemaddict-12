@@ -1,13 +1,17 @@
 import FilmsView from '../view/films';
 import FilmsListView from '../view/films-list';
 import FilmsContainerView from '../view/films-container';
-import FilmView from '../view/film';
 import BtnShowMoreView from '../view/btn-show-more';
-import FilmPopupView from '../view/film-popup';
 import FilmsExtraView from '../view/films-extra';
 import NoFilmsView from '../view/no-films';
 import SortView from '../view/sort';
-import {sortFilmDate, sortFilmRating} from "../utils/film";
+
+import FilmPresenter from './film';
+
+import {
+  sortFilmDate,
+  sortFilmRating
+} from "../utils/film";
 
 import {
   FilmsCount,
@@ -24,7 +28,6 @@ import {
 
 import {getRandomInteger} from '../utils/common';
 
-
 export default class MovieList {
 
   constructor(container) {
@@ -35,8 +38,6 @@ export default class MovieList {
     this._filmsListComponent = new FilmsListView();
     this._filmsContainerComponent = new FilmsContainerView();
     this._noFilmsComponent = new NoFilmsView();
-    this._filmComponent = new FilmView();
-    this._filmPopupComponent = new FilmPopupView();
     this._btnShowMoreComponent = new BtnShowMoreView();
     this._sortComponent = new SortView();
     this._currenSortType = SortType.DEFAULT;
@@ -64,47 +65,9 @@ export default class MovieList {
     this._sortComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
   }
 
-  _renderFilm(film, containerElement = this._filmsContainerComponent) {
-    let {comments} = film;
-
-    const filmComponent = new FilmView(film);
-    const filmPopupComponent = new FilmPopupView(film, comments);
-
-    const showPopup = () => {
-      this._filmsListComponent.getElement().appendChild(filmPopupComponent.getElement());
-    };
-
-    const closePopup = () => {
-      this._filmsListComponent.getElement().removeChild(filmPopupComponent.getElement());
-    };
-
-    const onEscKeyDown = (evt) => {
-      if (evt.key === `Escape` || evt.key === `Esc`) {
-        evt.preventDefault();
-        closePopup();
-        document.removeEventListener(`keydown`, onEscKeyDown);
-      }
-    };
-
-    filmComponent.setTitleClickHandler(() => {
-      showPopup();
-      document.addEventListener(`keydown`, onEscKeyDown);
-    });
-
-    filmComponent.setPosterClickHandler(() => {
-      showPopup();
-      document.addEventListener(`keydown`, onEscKeyDown);
-    });
-
-    filmPopupComponent.setCloseBtnClickHandler(() => {
-      closePopup();
-    });
-
-    filmPopupComponent.setFormSubmitHandler(() => {
-      closePopup();
-    });
-
-    render(containerElement, filmComponent, RenderPosition.BEFOREEND);
+  _renderFilm(film, container = this._filmsContainerComponent) {
+    const taskPresenter = new FilmPresenter(container);
+    taskPresenter.init(film);
   }
 
   _renderFilms(from, to) {
