@@ -1,27 +1,17 @@
-import {createElement} from '../utils';
+import AbstracView from './absrtact';
 
-export default class FilmsExtraView {
+export default class FilmsExtraView extends AbstracView {
+
   constructor(category) {
+    super();
     this._category = category;
-    this._element = null;
   }
 
-  getTemplate(category) {
+  getTemplate() {
     return `<section class="films-list--extra">
-        <h2 class="films-list__title">${category}</h2>
+        <h2 class="films-list__title">${this._category}</h2>
         <div class="films-list__container"></div>
       </section>`;
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate(this._category));
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
 }

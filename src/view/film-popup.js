@@ -1,13 +1,15 @@
-import {createElement} from '../utils';
+import AbstractView from './absrtact';
 
-export default class FilmPopupView {
+export default class FilmPopupView extends AbstractView {
   constructor(film, comments) {
+    super();
     this._film = film;
     this._comments = comments;
-    this._element = null;
+    this._formSubmitHandler = this._formSubmitHandler.bind(this);
+    this._closeBtnClickHandler = this._closeBtnClickHandler.bind(this);
   }
 
-  getTemplate(film) {
+  getTemplate() {
 
     const createCommentsItem = (item) => {
       return `<li class="film-details__comment">
@@ -89,7 +91,7 @@ export default class FilmPopupView {
       genres,
       comments,
       description,
-    } = film;
+    } = this._film;
 
     return `<section class="film-details">
     <form class="film-details__inner" action="" method="get">
@@ -171,15 +173,23 @@ export default class FilmPopupView {
   </section>`;
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate(this._film));
-    }
-
-    return this._element;
+  _closeBtnClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.closeBtnClick();
   }
 
-  removeElement() {
-    this._element = null;
+  setCloseBtnClickHandler(callback) {
+    this._callback.closeBtnClick = callback;
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._closeBtnClickHandler);
+  }
+
+  _formSubmitHandler(evt) {
+    evt.preventDefault();
+    this._callback.formSubmit();
+  }
+
+  setFormSubmitHandler(callback) {
+    this._callback.formSubmit = callback;
+    this.getElement().querySelector(`form`).addEventListener(`submit`, this._formSubmitHandler);
   }
 }

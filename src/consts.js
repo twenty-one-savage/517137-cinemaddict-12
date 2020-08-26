@@ -1,4 +1,4 @@
-import { getRandomInteger } from "./utils";
+import {getRandomInteger} from "./utils/common";
 
 export const NUMBER_OF_CATEGORIES = 2;
 
@@ -55,4 +55,10 @@ export const generateDate = () => {
   };
 
   return formatDate();
+};
+
+export const SortType = {
+  DEFAULT: `default`,
+  DATE: `date`,
+  RATING: `rating`
 };

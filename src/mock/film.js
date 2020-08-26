@@ -1,4 +1,4 @@
-import {getRandomInteger} from '../utils';
+import {getRandomInteger} from '../utils/common';
 import {FilmsCount, FilmOptions, GENRES, generateDate} from '../consts';
 
 const generateFilmName = () => {
@@ -93,6 +93,7 @@ const generateFilmDuration = () => {
 };
 
 const genereateFilmGenre = () => {
+
   return GENRES
   .sort(() => 0.5 - Math.random())
   .slice(getRandomInteger(0, GENRES.length - 1));

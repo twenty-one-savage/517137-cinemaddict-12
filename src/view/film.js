@@ -1,12 +1,15 @@
-import {createElement} from '../utils';
+import AbstractView from './absrtact';
 
-export default class FilmView {
+export default class FilmView extends AbstractView {
   constructor(film) {
+    super();
+
     this._film = film;
-    this._element = null;
+    this._titleClickHandler = this._titleClickHandler.bind(this);
+    this._posterClickHandler = this._posterClickHandler.bind(this);
   }
 
-  getTemplate(film) {
+  getTemplate() {
     const {
       poster,
       name,
@@ -16,7 +19,7 @@ export default class FilmView {
       genres,
       description,
       commentsQuantity
-    } = film;
+    } = this._film;
 
     return `<article class="film-card">
       <h3 class="film-card__title">${name}</h3>
@@ -37,15 +40,24 @@ export default class FilmView {
     </article>`;
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate(this._film));
-    }
 
-    return this._element;
+  setTitleClickHandler(callback) {
+    this._callback.titleClick = callback;
+    this.getElement().querySelector(`.film-card__title`).addEventListener(`click`, this._titleClickHandler);
   }
 
-  removeElement() {
-    this._element = null;
+  setPosterClickHandler(callback) {
+    this._callback.posterClick = callback;
+    this.getElement().querySelector(`.film-card__poster`).addEventListener(`click`, this._posterClickHandler);
+  }
+
+  _titleClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.titleClick();
+  }
+
+  _posterClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.posterClick();
   }
 }

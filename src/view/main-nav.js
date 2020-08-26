@@ -1,4 +1,4 @@
-import {createElement} from '../utils';
+import AbstracView from './absrtact';
 
 const createFilterItemTemplate = (filter) => {
   let {name, count} = filter;
@@ -24,25 +24,13 @@ const createAppMainNavigationTemplate = (filterItems) => {
     </nav>`;
 };
 
-export default class MainNavigationView {
+export default class MainNavigationView extends AbstracView {
   constructor(filters) {
+    super();
     this._filters = filters;
-    this._element = null;
   }
 
   getTemplate() {
     return createAppMainNavigationTemplate(this._filters);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
