@@ -1,7 +1,7 @@
 import FilmView from '../view/film';
 import FilmPopupView from '../view/film-popup';
 
-import {render, replace, RenderPosition} from '../utils/render';
+import {render, replace, remove, RenderPosition} from '../utils/render';
 
 export default class FilmPresenter {
   constructor(filmListContainer) {
@@ -24,6 +24,8 @@ export default class FilmPresenter {
 
     let {comments} = film;
 
+    const prevFilmComponent = this._filmComponent;
+    const prevFilmPopupComponent = this._filmPopupComponent;
 
     this._filmComponent = new FilmView(film);
     this._filmPopupComponent = new FilmPopupView(film, comments);
@@ -33,7 +35,26 @@ export default class FilmPresenter {
     this._filmPopupComponent.setFormSubmitHandler(this._handleFormSubmit);
     this._filmPopupComponent.setCloseBtnClickHandler(this._handleCloseBtnClick);
 
-    render(this._filmListContainer, this._filmComponent, RenderPosition.BEFOREEND);
+    if (prevFilmComponent === null || prevFilmPopupComponent === null) {
+      render(this._filmListContainer, this._filmComponent, RenderPosition.BEFOREEND);
+      return;
+    }
+
+    if (this._filmsListContainer.getElement().contains(prevFilmComponent.getElement())) {
+      replace(this._filmComponent, prevFilmComponent);
+    }
+
+    if (this._filmsListContainer.getElement().contains(prevFilmPopupComponent.getElement())) {
+      replace(this._filmPopupComponent, prevFilmPopupComponent);
+    }
+
+    remove(prevFilmComponent);
+    remove(prevFilmPopupComponent);
+  }
+
+  destroy() {
+    remove(this._taskComponent);
+    remove(this._taskEditComponent);
   }
 
   _showPopup() {
