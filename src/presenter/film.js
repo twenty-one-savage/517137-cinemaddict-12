@@ -53,8 +53,8 @@ export default class FilmPresenter {
   }
 
   destroy() {
-    remove(this._taskComponent);
-    remove(this._taskEditComponent);
+    remove(this._filmComponent);
+    remove(this._filmPopupComponent);
   }
 
   _showPopup() {

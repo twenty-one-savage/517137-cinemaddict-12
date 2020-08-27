@@ -1,6 +1,8 @@
 import {getRandomInteger} from '../utils/common';
 import {FilmsCount, FilmOptions, GENRES, generateDate} from '../consts';
 
+const generateId = () => Date.now() + parseInt(Math.random() * 10000, 10);
+
 const generateFilmName = () => {
   const filmNames = [
     `The Dance of Life`,
@@ -103,6 +105,7 @@ const genereateFilmGenre = () => {
 const generateFilm = () => {
   const comments = generateComments();
   return {
+    id: generateId(),
     poster: generateFilmPoster(),
     name: generateFilmName(),
     rating: generateFilmRating(),
