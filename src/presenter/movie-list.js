@@ -54,12 +54,13 @@ export default class MovieList {
     this._sourcedFilms = films.slice();
 
     this._renderSort();
+
     render(this._container, this._filmsComponent, RenderPosition.BEFOREEND);
     render(this._filmsComponent, this._filmsListComponent, RenderPosition.BEFOREEND);
     render(this._filmsListComponent, this._filmsContainerComponent, RenderPosition.BEFOREEND);
 
     this._renderMovieList();
-    this._renderFilmsExtra(films);
+    this._renderFilmsExtra(this._films);
   }
 
   _renderSort() {
@@ -143,7 +144,6 @@ export default class MovieList {
     if (this._films.length > FilmsCount.PER_STEP) {
       this._renderBtnShowMore();
     }
-
   }
 
   _handleSortTypeChange(sortType) {
@@ -172,12 +172,13 @@ export default class MovieList {
   }
 
   _clearMovieList() {
-    Object
-      .values(this._filmPresenter)
-      .forEach((presenter) => {
-        presenter.destroy();
-      });
-    this._filmPresenter = {};
+    this._filmsContainerComponent.getElement().innerHTML = ``;
+    // Object
+    //   .values(this._filmPresenter)
+    //   .forEach((presenter) => {
+    //     presenter.destroy();
+    //   });
+    // this._filmPresenter = {};
     this._renderedFilmsCount = FilmsCount.PER_STEP;
   }
 }
