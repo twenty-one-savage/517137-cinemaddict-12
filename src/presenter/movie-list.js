@@ -35,6 +35,9 @@ export default class MovieList {
     this._filmsComponent = new FilmsView();
     this._filmsListComponent = new FilmsListView();
     this._filmsContainerComponent = new FilmsContainerView();
+
+    this._filmsExtraComponent = null;
+
     this._noFilmsComponent = new NoFilmsView();
     this._btnShowMoreComponent = new BtnShowMoreView();
     this._sortComponent = new SortView();
@@ -55,7 +58,7 @@ export default class MovieList {
     render(this._filmsComponent, this._filmsListComponent, RenderPosition.BEFOREEND);
     render(this._filmsListComponent, this._filmsContainerComponent, RenderPosition.BEFOREEND);
 
-    this._renderFilmsContainer();
+    this._renderMovieList();
     this._renderFilmsExtra(films);
   }
 
@@ -99,14 +102,20 @@ export default class MovieList {
 
   _renderFilmsExtra(films) {
 
-    const topRatedFilms = films.slice().sort((a, b) => b.rating - a.rating).splice(0, FilmsCount.EXTRA);
-    const mostCommentedFilms = films.slice().sort((a, b) => b.comments.length - a.comments.length).splice(0, FilmsCount.EXTRA);
+    const createCategoryFilms = (attribute) => {
+      return films.slice().sort((a, b) => b[attribute] - a[attribute]).splice(0, FilmsCount.EXTRA);
+    };
+
+    const topRatedFilms = createCategoryFilms(`rating`);
+    const mostCommentedFilms = createCategoryFilms(`commentsQuantity`);
 
     const renderCategorySection = (category, categoriesFilms) => {
-      const filmsExtraComponent = new FilmsExtraView(category);
+      this._filmsExtraComponent = new FilmsExtraView(category);
 
-      render(this._filmsComponent, filmsExtraComponent, RenderPosition.BEFOREEND);
-      const categoryContainerElement = filmsExtraComponent.getElement().querySelector(`.films-list__container`);
+      render(this._filmsComponent, this._filmsExtraComponent, RenderPosition.BEFOREEND);
+
+      const categoryContainerElement = this._filmsExtraComponent.getElement().querySelector(`.films-list__container`);
+
       categoriesFilms.forEach((film) => this._renderFilm(film, categoryContainerElement));
 
     };
@@ -122,17 +131,17 @@ export default class MovieList {
       });
   }
 
-  _renderFilmsContainer() {
+  _renderMovieList() {
 
-    if (this._films.length) {
-      this._renderFilms(0, Math.min(this._films.length, FilmsCount.PER_STEP));
-
-      if (this._films.length > FilmsCount.PER_STEP) {
-        this._renderBtnShowMore();
-      }
-
-    } else {
+    if (this._films.length < 1) {
       this._renderNoFilms();
+      return;
+    }
+
+    this._renderFilms(0, Math.min(this._films.length, FilmsCount.PER_STEP));
+
+    if (this._films.length > FilmsCount.PER_STEP) {
+      this._renderBtnShowMore();
     }
 
   }
@@ -143,8 +152,8 @@ export default class MovieList {
     }
     this._sortFilms(sortType);
 
-    this._clearFilmsBoard();
-    this._renderFilmsContainer();
+    this._clearMovieList();
+    this._renderMovieList();
   }
 
   _sortFilms(sortType) {
@@ -162,10 +171,12 @@ export default class MovieList {
     this._currenSortType = sortType;
   }
 
-  _clearFilmsBoard() {
+  _clearMovieList() {
     Object
       .values(this._filmPresenter)
-      .forEach((presenter) => presenter.destroy());
+      .forEach((presenter) => {
+        presenter.destroy();
+      });
     this._filmPresenter = {};
     this._renderedFilmsCount = FilmsCount.PER_STEP;
   }
