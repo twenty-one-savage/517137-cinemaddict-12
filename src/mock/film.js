@@ -116,10 +116,8 @@ const generateFilm = () => {
     commentsQuantity: comments.length,
     comments,
     isWatchlist: Boolean(getRandomInteger()),
-    isHistory: Boolean(getRandomInteger()),
+    isWatched: Boolean(getRandomInteger()),
     isFavorite: Boolean(getRandomInteger()),
-    isTopRated: Boolean(getRandomInteger()),
-    isMostCommented: Boolean(getRandomInteger())
   };
 };
 

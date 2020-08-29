@@ -74,7 +74,7 @@ export default class MovieList {
   }
 
   _renderFilm(film, container = this._filmsContainerComponent, presenter = this._filmMainPresenter) {
-    const filmPresenter = new FilmPresenter(container);
+    const filmPresenter = new FilmPresenter(container, this._handleFilmChange);
     filmPresenter.init(film);
     presenter[film.id] = filmPresenter;
   }
@@ -90,7 +90,7 @@ export default class MovieList {
   }
 
   _handleFilmChange(updatedFilm) {
-    this._films = updateItem(this._boardTasks, updatedFilm);
+    this._films = updateItem(this._films, updatedFilm);
     this._sourcedFilms = updateItem(this._sourcedFilms, updatedFilm);
     this._filmMainPresenter[updatedFilm.id].init(updatedFilm);
   }
