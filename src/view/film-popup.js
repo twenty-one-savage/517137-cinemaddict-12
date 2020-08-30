@@ -1,6 +1,6 @@
-import AbstractView from './absrtact';
+import SmartView from './smart';
 
-export default class FilmPopupView extends AbstractView {
+export default class FilmPopupView extends SmartView {
   constructor(film, comments) {
     super();
 
@@ -12,6 +12,8 @@ export default class FilmPopupView extends AbstractView {
     this._favoritesClickHandler = this._favoritesClickHandler.bind(this);
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
     this._closeBtnClickHandler = this._closeBtnClickHandler.bind(this);
+
+    // this._setInnerHandlers();
   }
 
   getTemplate() {
@@ -96,6 +98,9 @@ export default class FilmPopupView extends AbstractView {
       genres,
       comments,
       description,
+      isWatchlist,
+      isWatched,
+      isFavorite
     } = this._film;
 
     return `<section class="film-details">
@@ -163,13 +168,13 @@ export default class FilmPopupView extends AbstractView {
         </div>
 
         <section class="film-details__controls">
-          <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
+          <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${isWatchlist ? `checked` : ``}>
           <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
-          <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched">
+          <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${isWatched ? `checked` : ``}>
           <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
-          <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
+          <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${isFavorite ? `checked` : ``}>
           <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
         </section>
       </div>
@@ -202,6 +207,11 @@ export default class FilmPopupView extends AbstractView {
   setFavoritesClickHandler(callback) {
     this._callback.favoritesCLick = callback;
     this.getElement().querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, this._favoritesClickHandler);
+  }
+
+  restoreHandlers() {
+    // this._setInnerHandlers();
+    // this.setFormSubmitHandler(this._callback.formSubmit);
   }
 
   _formSubmitHandler(evt) {
