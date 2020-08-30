@@ -125,10 +125,10 @@ export default class MovieList {
 
       const renderCategorySection = (category, categoriesFilms) => {
         this._filmsExtraComponent = new FilmsExtraView(category);
+        const categoryContainerElement = new FilmsContainerView();
 
         render(this._filmsComponent, this._filmsExtraComponent, RenderPosition.BEFOREEND);
-
-        const categoryContainerElement = this._filmsExtraComponent.getElement().querySelector(`.films-list__container`);
+        render(this._filmsExtraComponent, categoryContainerElement, RenderPosition.BEFOREEND)
 
         categoriesFilms.forEach((film) => this._renderFilm(film, categoryContainerElement, this._filmExtraPresenter));
 
