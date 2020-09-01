@@ -22,7 +22,10 @@ export default class FilmView extends AbstractView {
       duration,
       genres,
       description,
-      commentsQuantity
+      commentsQuantity,
+      isWatchlist,
+      isWatched,
+      isFavorite
     } = this._film;
 
     return `<article class="film-card">
@@ -37,9 +40,9 @@ export default class FilmView extends AbstractView {
       <p class="film-card__description">${description}</p>
       <a class="film-card__comments">${commentsQuantity} comments</a>
       <form class="film-card__controls">
-        <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist">Add to watchlist</button>
-        <button class="film-card__controls-item button film-card__controls-item--mark-as-watched">Mark as watched</button>
-        <button class="film-card__controls-item button film-card__controls-item--favorite">Mark as favorite</button>
+        <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${isWatchlist ? ` film-card__controls-item--active` : ``}"> Add to watchlist </button>
+        <button class="film-card__controls-item button film-card__controls-item--mark-as-watched ${isWatched ? ` film-card__controls-item--active` : ``}"> Mark as watched </button>
+        <button class="film-card__controls-item button film-card__controls-item--favorite ${isFavorite ? ` film-card__controls-item--active` : ``}"> Mark as favorite </button>
       </form>
     </article>`;
   }

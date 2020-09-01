@@ -21,18 +21,21 @@ export default class FilmPresenter {
     this._handleWatchListClick = this._handleWatchListClick.bind(this);
     this._handleWatchedClick = this._handleWatchedClick.bind(this);
     this._handleFavoritesClick = this._handleFavoritesClick.bind(this);
+    this._handleEmojiClick = this._handleEmojiClick.bind(this);
   }
 
   init(film) {
     this._film = film;
 
     let {comments} = film;
+    this._comments = comments;
+
 
     const prevFilmComponent = this._filmComponent;
     const prevFilmPopupComponent = this._filmPopupComponent;
 
     this._filmComponent = new FilmView(film);
-    this._filmPopupComponent = new FilmPopupView(film, comments);
+    this._filmPopupComponent = new FilmPopupView(film, this._comments);
 
     this._filmComponent.setTitleClickHandler(this._handleTitleClick);
     this._filmComponent.setPosterClickHandler(this._handlePosterClick);
@@ -45,6 +48,7 @@ export default class FilmPresenter {
     this._filmPopupComponent.setFavoritesClickHandler(this._handleFavoritesClick);
     this._filmPopupComponent.setFormSubmitHandler(this._handleFormSubmit);
     this._filmPopupComponent.setCloseBtnClickHandler(this._handleCloseBtnClick);
+    this._filmPopupComponent.setEmojiClickHandler(this._handleEmojiClick);
 
     if (prevFilmComponent === null || prevFilmPopupComponent === null) {
       render(this._filmListContainer, this._filmComponent, RenderPosition.BEFOREEND);
@@ -134,6 +138,18 @@ export default class FilmPresenter {
             this._film,
             {
               isFavorite: !this._film.isFavorite
+            }
+        )
+    );
+  }
+
+  _handleEmojiClick() {
+    this._changeData(
+        Object.assign(
+            {},
+            this._comments,
+            {
+              emoji: this._comments.emoji
             }
         )
     );

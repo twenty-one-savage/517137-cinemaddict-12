@@ -12,6 +12,7 @@ export default class FilmPopupView extends SmartView {
     this._favoritesClickHandler = this._favoritesClickHandler.bind(this);
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
     this._closeBtnClickHandler = this._closeBtnClickHandler.bind(this);
+    this._emojiClickHandler = this._emojiClickHandler.bind(this);
 
     // this._setInnerHandlers();
   }
@@ -209,6 +210,11 @@ export default class FilmPopupView extends SmartView {
     this.getElement().querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, this._favoritesClickHandler);
   }
 
+  setEmojiClickHandler(callback) {
+    this._callback.emojiClick = callback;
+    this.getElement().querySelector(`.film-details__emoji-list`).addEventListener(`click`, this._emojiClickHandler);
+  }
+
   restoreHandlers() {
     // this._setInnerHandlers();
     // this.setFormSubmitHandler(this._callback.formSubmit);
@@ -237,5 +243,10 @@ export default class FilmPopupView extends SmartView {
   _favoritesClickHandler(evt) {
     evt.preventDefault();
     this._callback.favoritesCLick();
+  }
+
+  _emojiClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.emojiClick();
   }
 }
