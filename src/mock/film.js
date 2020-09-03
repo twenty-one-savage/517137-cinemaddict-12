@@ -59,9 +59,8 @@ const generateComments = () => {
 
   const CommentsMap = {
     TEXT: [`Interesting setting and a good cast`, `Booooooooooring`, `Very very old. Meh`, `Almost two hours? Seriously?`],
-    EMOJI: [`angry.png`, `puke.png`, `sleeping.png`, `smile.png`],
+    EMOJI: [`angry`, `puke`, `sleeping`, `smile`],
     AUTHOR: [`Tim Macoveev`, `John Doe`],
-    DATE: null
   };
 
   const comments = [];
