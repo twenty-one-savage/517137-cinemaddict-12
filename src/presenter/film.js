@@ -84,29 +84,28 @@ export default class FilmPresenter {
     replace(this._filmPopupComponent, this._filmComponent);
     this._changeMode();
     this._mode = Mode.POPUP;
+    document.addEventListener(`keydown`, this._escKeyDownHandler);
   }
 
   _closePopup() {
     replace(this._filmComponent, this._filmPopupComponent);
     this._mode = Mode.DEFAULT;
+    document.removeEventListener(`keydown`, this._escKeyDownHandler);
   }
 
   _escKeyDownHandler(evt) {
     if (evt.key === `Escape` || evt.key === `Esc`) {
       evt.preventDefault();
       this._closePopup();
-      document.removeEventListener(`keydown`, this._escKeyDownHandler);
     }
   }
 
   _handleTitleClick() {
     this._showPopup();
-    document.addEventListener(`keydown`, this._escKeyDownHandler);
   }
 
   _handlePosterClick() {
     this._showPopup();
-    document.addEventListener(`keydown`, this._escKeyDownHandler);
   }
 
   _handleCloseBtnClick() {
