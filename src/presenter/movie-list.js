@@ -46,6 +46,8 @@ export default class MovieList {
     this._sortComponent = new SortView();
     this._currenSortType = SortType.DEFAULT;
 
+    this._handleModeChange = this._handleModeChange.bind(this);
+
     this._handleFilmChange = this._handleFilmChange.bind(this);
     this._handleBtnShowMoreClick = this._handleBtnShowMoreClick.bind(this);
 
@@ -74,7 +76,7 @@ export default class MovieList {
   }
 
   _renderFilm(film, container = this._filmsContainerComponent, presenter = this._filmMainPresenter) {
-    const filmPresenter = new FilmPresenter(container, this._handleFilmChange);
+    const filmPresenter = new FilmPresenter(container, this._handleFilmChange, this._handleModeChange);
     filmPresenter.init(film);
     presenter[film.id] = filmPresenter;
   }
@@ -87,6 +89,12 @@ export default class MovieList {
 
   _renderNoFilms() {
     render(this._filmsListComponent, this._noFilmsComponent, RenderPosition.AFTERBEGIN);
+  }
+
+  _handleModeChange() {
+    Object
+       .values(this._filmMainPresenter)
+       .forEach((presenter) => presenter.resetView());
   }
 
   _handleFilmChange(updatedFilm) {

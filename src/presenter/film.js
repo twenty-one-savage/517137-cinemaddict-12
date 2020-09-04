@@ -3,14 +3,19 @@ import FilmPopupView from '../view/film-popup';
 
 import {render, replace, remove, RenderPosition} from '../utils/render';
 
+import {Mode} from '../consts';
+
 export default class FilmPresenter {
-  constructor(filmListContainer, changeData) {
+  constructor(filmListContainer, changeData, changeMode) {
     this._filmListContainer = filmListContainer;
 
     this._filmComponent = null;
     this._filmPopupComponent = null;
 
     this._changeData = changeData;
+    this._changeMode = changeMode;
+
+    this._mode = Mode.DEFAULT;
 
     this._handleTitleClick = this._handleTitleClick.bind(this);
     this._handlePosterClick = this._handlePosterClick.bind(this);
@@ -52,11 +57,11 @@ export default class FilmPresenter {
       return;
     }
 
-    if (this._filmListContainer.getElement().contains(prevFilmComponent.getElement())) {
+    if (this._mode === Mode.DEFAULT) {
       replace(this._filmComponent, prevFilmComponent);
     }
 
-    if (this._filmListContainer.getElement().contains(prevFilmPopupComponent.getElement())) {
+    if (this._mode === Mode.POPUP) {
       replace(this._filmPopupComponent, prevFilmPopupComponent);
     }
 
@@ -69,12 +74,21 @@ export default class FilmPresenter {
     remove(this._filmPopupComponent);
   }
 
+  resetView() {
+    if (this._mode !== Mode.DEFAULT) {
+      this._closePopup();
+    }
+  }
+
   _showPopup() {
     replace(this._filmPopupComponent, this._filmComponent);
+    this._changeMode();
+    this._mode = Mode.POPUP;
   }
 
   _closePopup() {
     replace(this._filmComponent, this._filmPopupComponent);
+    this._mode = Mode.DEFAULT;
   }
 
   _escKeyDownHandler(evt) {

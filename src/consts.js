@@ -70,3 +70,8 @@ export const Emojies = {
   PUKE: `puke`,
   ANGRY: `angry`
 };
+
+export const Mode = {
+  DEFAULT: `DEFAULT`,
+  POPUP: `POPUP`
+};
