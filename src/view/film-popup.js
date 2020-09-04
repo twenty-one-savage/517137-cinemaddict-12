@@ -14,8 +14,7 @@ export default class FilmPopupView extends SmartView {
     this._closeBtnClickHandler = this._closeBtnClickHandler.bind(this);
     this._emojiesToggleHandler = this._emojiesToggleHandler.bind(this);
 
-    this._activateEmojiesToggle();
-    // this._setInnerHandlers();
+    this._setInnerHandlers();
   }
 
   getTemplate() {
@@ -212,8 +211,12 @@ export default class FilmPopupView extends SmartView {
   }
 
   restoreHandlers() {
-    // this._setInnerHandlers();
-    // this.setFormSubmitHandler(this._callback.formSubmit);
+    this._setInnerHandlers();
+    this.setFormSubmitHandler(this._callback.formSubmit);
+  }
+
+  _setInnerHandlers() {
+    this._activateEmojiesToggle();
   }
 
   _formSubmitHandler(evt) {
