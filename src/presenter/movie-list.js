@@ -82,7 +82,7 @@ export default class MovieList {
   }
 
   _renderSort() {
-    if (this._films.length >= 1) {
+    if (this._films.length > 1) {
       render(this._container, this._sortComponent, RenderPosition.BEFOREEND);
       this._sortComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
     }
@@ -108,16 +108,22 @@ export default class MovieList {
     Object
        .values(this._filmMainPresenter)
        .forEach((presenter) => presenter.resetView());
+
+    Object
+      .values(this._filmExtraPresenter)
+      .forEach((presenter) => presenter.resetView());
   }
 
   _handleFilmChange(updatedFilm) {
     this._films = this._updateItem(this._films, updatedFilm);
     this._sourcedFilms = this._updateItem(this._sourcedFilms, updatedFilm);
+
     if (this._filmMainPresenter[updatedFilm.id] === undefined) {
       this._filmExtraPresenter[updatedFilm.id].init(updatedFilm);
     } else {
       this._filmMainPresenter[updatedFilm.id].init(updatedFilm);
     }
+
     this._clearFilmsExtra();
     this._renderFilmsExtra();
   }
@@ -132,10 +138,7 @@ export default class MovieList {
   }
 
   _renderBtnShowMore() {
-
     render(this._filmsListComponent, this._btnShowMoreComponent, RenderPosition.BEFOREEND);
-
-
     this._btnShowMoreComponent.setBtnClickHandler(this._handleBtnShowMoreClick);
   }
 
@@ -233,6 +236,8 @@ export default class MovieList {
       el.getElement().remove();
       el.removeElement();
     });
+
+    this._filmsExtraComponents = [];
 
     Object
       .values(this._filmExtraPresenter)
