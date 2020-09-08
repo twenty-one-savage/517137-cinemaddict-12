@@ -7,9 +7,8 @@ export default class FilmPopupView extends SmartView {
     this._film = film;
     this._comments = comments;
 
-    this._watchListClickHandler = this._watchListClickHandler.bind(this);
-    this._watchedClickHandler = this._watchedClickHandler.bind(this);
-    this._favoritesClickHandler = this._favoritesClickHandler.bind(this);
+    this._filmPopupControlsClickHandler = this._filmPopupControlsClickHandler.bind(this);
+
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
     this._closeBtnClickHandler = this._closeBtnClickHandler.bind(this);
     this._emojiesToggleHandler = this._emojiesToggleHandler.bind(this);
@@ -184,7 +183,6 @@ export default class FilmPopupView extends SmartView {
   </section>`;
   }
 
-
   setCloseBtnClickHandler(callback) {
     this._callback.closeBtnClick = callback;
     this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._closeBtnClickHandler);
@@ -195,19 +193,9 @@ export default class FilmPopupView extends SmartView {
     this.getElement().querySelector(`form`).addEventListener(`submit`, this._formSubmitHandler);
   }
 
-  setWatchListClickHandler(callback) {
-    this._callback.watchListClick = callback;
-    this.getElement().querySelector(`.film-details__control-label--watchlist`).addEventListener(`click`, this._watchListClickHandler);
-  }
-
-  setWatchedClickHandler(callback) {
-    this._callback.watchedClick = callback;
-    this.getElement().querySelector(`.film-details__control-label--watched`).addEventListener(`click`, this._watchedClickHandler);
-  }
-
-  setFavoritesClickHandler(callback) {
-    this._callback.favoritesCLick = callback;
-    this.getElement().querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, this._favoritesClickHandler);
+  setFilmPopupControlsHandler(callback) {
+    this._callback.filmPopupControlsClick = callback;
+    this.getElement().querySelector(`.film-details__controls`).addEventListener(`click`, this._filmPopupControlsClickHandler);
   }
 
   restoreHandlers() {
@@ -229,19 +217,27 @@ export default class FilmPopupView extends SmartView {
     this._callback.closeBtnClick();
   }
 
-  _watchListClickHandler(evt) {
-    evt.preventDefault();
-    this._callback.watchListClick();
-  }
+  _filmPopupControlsClickHandler(evt) {
+    let target = evt.target;
 
-  _watchedClickHandler(evt) {
-    evt.preventDefault();
-    this._callback.watchedClick();
-  }
+    const watchList = this.getElement().querySelector(`.film-details__control-label--watchlist`);
+    const watched = this.getElement().querySelector(`.film-details__control-label--watched`);
+    const favorite = this.getElement().querySelector(`.film-details__control-label--favorite`);
 
-  _favoritesClickHandler(evt) {
-    evt.preventDefault();
-    this._callback.favoritesCLick();
+    if (target === watchList || target === watched || target === favorite) {
+
+      switch (target) {
+        case watchList:
+          this._callback.filmPopupControlsClick(`isWatchlist`);
+          break;
+        case watched:
+          this._callback.filmPopupControlsClick(`isWatched`);
+          break;
+        case favorite:
+          this._callback.filmPopupControlsClick(`isFavorite`);
+          break;
+      }
+    }
   }
 
   _activateEmojiesToggle() {

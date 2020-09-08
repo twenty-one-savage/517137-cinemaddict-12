@@ -25,8 +25,6 @@ import {
   remove
 } from "../utils/render";
 
-import {updateItem} from '../utils/common';
-
 export default class MovieList {
 
   constructor(container) {
@@ -40,6 +38,7 @@ export default class MovieList {
     this._filmsContainerComponent = new FilmsContainerView();
 
     this._filmsExtraComponent = null;
+    this._filmsExtraComponents = [];
 
     this._noFilmsComponent = new NoFilmsView();
     this._btnShowMoreComponent = new BtnShowMoreView();
@@ -66,6 +65,20 @@ export default class MovieList {
 
     this._renderMovieList();
     this._renderFilmsExtra();
+  }
+
+  _updateItem(items, update) {
+    const index = items.findIndex((item) => item.id === update.id);
+
+    if (index === -1) {
+      return items;
+    }
+
+    return [
+      ...items.slice(0, index),
+      update,
+      ...items.slice(index + 1)
+    ];
   }
 
   _renderSort() {
@@ -98,9 +111,15 @@ export default class MovieList {
   }
 
   _handleFilmChange(updatedFilm) {
-    this._films = updateItem(this._films, updatedFilm);
-    this._sourcedFilms = updateItem(this._sourcedFilms, updatedFilm);
-    this._filmMainPresenter[updatedFilm.id].init(updatedFilm);
+    this._films = this._updateItem(this._films, updatedFilm);
+    this._sourcedFilms = this._updateItem(this._sourcedFilms, updatedFilm);
+    if (this._filmMainPresenter[updatedFilm.id] === undefined) {
+      this._filmExtraPresenter[updatedFilm.id].init(updatedFilm);
+    } else {
+      this._filmMainPresenter[updatedFilm.id].init(updatedFilm);
+    }
+    this._clearFilmsExtra();
+    this._renderFilmsExtra();
   }
 
   _handleBtnShowMoreClick() {
@@ -122,7 +141,7 @@ export default class MovieList {
 
   _renderFilmsExtra() {
 
-    if (this._films.length >= 1) {
+    if (this._films.length) {
 
       const createCategoryFilms = (attribute) => {
         return this._films.slice().sort((a, b) => b[attribute] - a[attribute]).splice(0, FilmsCount.EXTRA);
@@ -133,22 +152,27 @@ export default class MovieList {
 
       const renderCategorySection = (category, categoriesFilms) => {
         this._filmsExtraComponent = new FilmsExtraView(category);
+
+        this._filmsExtraComponents.push(this._filmsExtraComponent);
+
         const categoryContainerElement = new FilmsContainerView();
 
         render(this._filmsComponent, this._filmsExtraComponent, RenderPosition.BEFOREEND);
         render(this._filmsExtraComponent, categoryContainerElement, RenderPosition.BEFOREEND);
 
         categoriesFilms.forEach((film) => this._renderFilm(film, categoryContainerElement, this._filmExtraPresenter));
-
       };
 
       Object
       .values(CATEGORIES)
       .forEach((category) => {
-        if (category === `Top Rated`) {
-          renderCategorySection(category, topRatedFilms);
-        } else if (category === `Most Commented`) {
-          renderCategorySection(category, mostCommentedFilms);
+        switch (category) {
+          case `Top Rated`:
+            renderCategorySection(category, topRatedFilms);
+            break;
+          case `Most Commented`:
+            renderCategorySection(category, mostCommentedFilms);
+            break;
         }
       });
     }
@@ -156,7 +180,7 @@ export default class MovieList {
 
   _renderMovieList() {
 
-    if (this._films.length < 1) {
+    if (!this._films.length) {
       this._renderNoFilms();
       return;
     }
@@ -202,5 +226,19 @@ export default class MovieList {
       });
     this._filmMainPresenter = {};
     this._renderedFilmsCount = FilmsCount.PER_STEP;
+  }
+
+  _clearFilmsExtra() {
+    this._filmsExtraComponents.forEach((el) => {
+      el.getElement().remove();
+      el.removeElement();
+    });
+
+    Object
+      .values(this._filmExtraPresenter)
+      .forEach((presenter) => {
+        presenter.destroy();
+      });
+    this._filmExtraPresenter = {};
   }
 }
