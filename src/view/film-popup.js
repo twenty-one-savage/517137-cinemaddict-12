@@ -1,12 +1,19 @@
-import AbstractView from './absrtact';
-
-export default class FilmPopupView extends AbstractView {
+import SmartView from './smart';
+import {renderTemplate, RenderPosition} from '../utils/render';
+export default class FilmPopupView extends SmartView {
   constructor(film, comments) {
     super();
+
     this._film = film;
     this._comments = comments;
+
+    this._filmPopupControlsClickHandler = this._filmPopupControlsClickHandler.bind(this);
+
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
     this._closeBtnClickHandler = this._closeBtnClickHandler.bind(this);
+    this._emojiesToggleHandler = this._emojiesToggleHandler.bind(this);
+
+    this._setInnerHandlers();
   }
 
   getTemplate() {
@@ -14,7 +21,7 @@ export default class FilmPopupView extends AbstractView {
     const createCommentsItem = (item) => {
       return `<li class="film-details__comment">
             <span class="film-details__comment-emoji">
-              <img src="./images/emoji/${item.emoji}" width="55" height="55" alt="emoji-smile">
+              <img src="./images/emoji/${item.emoji}.png" data-emoji="${item.emoji}" width="55" height="55" alt="emoji-${item.emoji}">
             </span>
             <div>
               <p class="film-details__comment-text">${item.text}</p>
@@ -58,22 +65,22 @@ export default class FilmPopupView extends AbstractView {
             <div class="film-details__emoji-list">
               <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="smile">
               <label class="film-details__emoji-label" for="emoji-smile">
-                <img src="./images/emoji/smile.png" width="30" height="30" alt="emoji">
+                <img src="./images/emoji/smile.png" width="30" height="30" data-emoji="smile" alt="emoji">
               </label>
 
               <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-sleeping" value="sleeping">
               <label class="film-details__emoji-label" for="emoji-sleeping">
-                <img src="./images/emoji/sleeping.png" width="30" height="30" alt="emoji">
+                <img src="./images/emoji/sleeping.png" width="30" height="30" data-emoji="sleeping" alt="emoji">
               </label>
 
               <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-puke" value="puke">
               <label class="film-details__emoji-label" for="emoji-puke">
-                <img src="./images/emoji/puke.png" width="30" height="30" alt="emoji">
+                <img src="./images/emoji/puke.png" width="30" height="30" data-emoji="puke" alt="emoji">
               </label>
 
               <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-angry" value="angry">
               <label class="film-details__emoji-label" for="emoji-angry">
-                <img src="./images/emoji/smile.png" width="30" height="30" alt="emoji">
+                <img src="./images/emoji/angry.png" width="30" height="30" data-emoji="angry" alt="emoji">
               </label>
             </div>
           </div>
@@ -91,6 +98,9 @@ export default class FilmPopupView extends AbstractView {
       genres,
       comments,
       description,
+      isWatchlist,
+      isWatched,
+      isFavorite
     } = this._film;
 
     return `<section class="film-details">
@@ -158,13 +168,13 @@ export default class FilmPopupView extends AbstractView {
         </div>
 
         <section class="film-details__controls">
-          <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
+          <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${isWatchlist ? `checked` : ``}>
           <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
-          <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched">
+          <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${isWatched ? `checked` : ``}>
           <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
-          <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
+          <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${isFavorite ? `checked` : ``}>
           <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
         </section>
       </div>
@@ -173,23 +183,86 @@ export default class FilmPopupView extends AbstractView {
   </section>`;
   }
 
-  _closeBtnClickHandler(evt) {
-    evt.preventDefault();
-    this._callback.closeBtnClick();
-  }
-
   setCloseBtnClickHandler(callback) {
     this._callback.closeBtnClick = callback;
     this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._closeBtnClickHandler);
   }
 
-  _formSubmitHandler(evt) {
-    evt.preventDefault();
-    this._callback.formSubmit();
-  }
-
   setFormSubmitHandler(callback) {
     this._callback.formSubmit = callback;
     this.getElement().querySelector(`form`).addEventListener(`submit`, this._formSubmitHandler);
+  }
+
+  setFilmPopupControlsHandler(callback) {
+    this._callback.filmPopupControlsClick = callback;
+    this.getElement().querySelector(`.film-details__controls`).addEventListener(`click`, this._filmPopupControlsClickHandler);
+  }
+
+  restoreHandlers() {
+    this._setInnerHandlers();
+    this.setFormSubmitHandler(this._callback.formSubmit);
+  }
+
+  _setInnerHandlers() {
+    this._activateEmojiesToggle();
+  }
+
+  _formSubmitHandler(evt) {
+    evt.preventDefault();
+    this._callback.formSubmit(this._film);
+  }
+
+  _closeBtnClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.closeBtnClick();
+  }
+
+  _filmPopupControlsClickHandler(evt) {
+    let target = evt.target;
+
+    const watchList = this.getElement().querySelector(`.film-details__control-label--watchlist`);
+    const watched = this.getElement().querySelector(`.film-details__control-label--watched`);
+    const favorite = this.getElement().querySelector(`.film-details__control-label--favorite`);
+
+    if (target === watchList || target === watched || target === favorite) {
+
+      switch (target) {
+        case watchList:
+          this._callback.filmPopupControlsClick(`isWatchlist`);
+          break;
+        case watched:
+          this._callback.filmPopupControlsClick(`isWatched`);
+          break;
+        case favorite:
+          this._callback.filmPopupControlsClick(`isFavorite`);
+          break;
+      }
+    }
+  }
+
+  _activateEmojiesToggle() {
+    this.getElement()
+    .querySelectorAll(`.film-details__emoji-label img`)
+    .forEach((el) => el.addEventListener(`click`, this._emojiesToggleHandler));
+  }
+
+  _emojiesToggleHandler(evt) {
+    const element = this.getElement();
+    let currentEmoji = evt.target.dataset.emoji;
+    const emojiContainer = this.getElement().querySelector(`.film-details__add-emoji-label`);
+    const emojiTemplate = (emoji) => {
+      return (`
+        <img src="./images/emoji/${emoji}.png" alt="emoji-${emoji}" width="55" height="55">
+      `);
+    };
+
+    if (emojiContainer.firstElementChild) {
+      emojiContainer.firstElementChild.remove();
+    }
+
+    renderTemplate(emojiContainer, emojiTemplate(currentEmoji), RenderPosition.BEFOREEND);
+
+    element.querySelectorAll(`.film-details__emoji-item`).forEach((el) => el.removeAttribute(`checked`));
+    element.querySelector(`#emoji-${currentEmoji}`).setAttribute(`checked`, ``);
   }
 }

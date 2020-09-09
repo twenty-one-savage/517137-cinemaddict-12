@@ -1,6 +1,8 @@
 import {getRandomInteger} from '../utils/common';
 import {FilmsCount, FilmOptions, GENRES, generateDate} from '../consts';
 
+const generateId = () => Date.now() + parseInt(Math.random() * 10000, 10);
+
 const generateFilmName = () => {
   const filmNames = [
     `The Dance of Life`,
@@ -57,9 +59,8 @@ const generateComments = () => {
 
   const CommentsMap = {
     TEXT: [`Interesting setting and a good cast`, `Booooooooooring`, `Very very old. Meh`, `Almost two hours? Seriously?`],
-    EMOJI: [`angry.png`, `puke.png`, `sleeping.png`, `smile.png`],
+    EMOJI: [`angry`, `puke`, `sleeping`, `smile`],
     AUTHOR: [`Tim Macoveev`, `John Doe`],
-    DATE: null
   };
 
   const comments = [];
@@ -103,6 +104,7 @@ const genereateFilmGenre = () => {
 const generateFilm = () => {
   const comments = generateComments();
   return {
+    id: generateId(),
     poster: generateFilmPoster(),
     name: generateFilmName(),
     rating: generateFilmRating(),
@@ -113,10 +115,8 @@ const generateFilm = () => {
     commentsQuantity: comments.length,
     comments,
     isWatchlist: Boolean(getRandomInteger()),
-    isHistory: Boolean(getRandomInteger()),
+    isWatched: Boolean(getRandomInteger()),
     isFavorite: Boolean(getRandomInteger()),
-    isTopRated: Boolean(getRandomInteger()),
-    isMostCommented: Boolean(getRandomInteger())
   };
 };
 

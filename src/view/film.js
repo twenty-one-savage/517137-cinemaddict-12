@@ -5,8 +5,9 @@ export default class FilmView extends AbstractView {
     super();
 
     this._film = film;
-    this._titleClickHandler = this._titleClickHandler.bind(this);
-    this._posterClickHandler = this._posterClickHandler.bind(this);
+
+    this._filmCardClickHandler = this._filmCardClickHandler.bind(this);
+    this._filmControlsClickHandler = this._filmControlsClickHandler.bind(this);
   }
 
   getTemplate() {
@@ -18,7 +19,10 @@ export default class FilmView extends AbstractView {
       duration,
       genres,
       description,
-      commentsQuantity
+      commentsQuantity,
+      isWatchlist,
+      isWatched,
+      isFavorite
     } = this._film;
 
     return `<article class="film-card">
@@ -33,31 +37,55 @@ export default class FilmView extends AbstractView {
       <p class="film-card__description">${description}</p>
       <a class="film-card__comments">${commentsQuantity} comments</a>
       <form class="film-card__controls">
-        <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist">Add to watchlist</button>
-        <button class="film-card__controls-item button film-card__controls-item--mark-as-watched">Mark as watched</button>
-        <button class="film-card__controls-item button film-card__controls-item--favorite">Mark as favorite</button>
+        <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${isWatchlist ? ` film-card__controls-item--active` : ``}"> Add to watchlist </button>
+        <button class="film-card__controls-item button film-card__controls-item--mark-as-watched ${isWatched ? ` film-card__controls-item--active` : ``}"> Mark as watched </button>
+        <button class="film-card__controls-item button film-card__controls-item--favorite ${isFavorite ? ` film-card__controls-item--active` : ``}"> Mark as favorite </button>
       </form>
     </article>`;
   }
 
-
-  setTitleClickHandler(callback) {
-    this._callback.titleClick = callback;
-    this.getElement().querySelector(`.film-card__title`).addEventListener(`click`, this._titleClickHandler);
+  setFilmCardClickHandler(callback) {
+    this._callback.filmCardClick = callback;
+    this.getElement().addEventListener(`click`, this._filmCardClickHandler);
   }
 
-  setPosterClickHandler(callback) {
-    this._callback.posterClick = callback;
-    this.getElement().querySelector(`.film-card__poster`).addEventListener(`click`, this._posterClickHandler);
+  setFilmControlsClickHandler(callback) {
+    this._callback.filmControlsClick = callback;
+    this.getElement().querySelector(`.film-card__controls`).addEventListener(`click`, this._filmControlsClickHandler);
   }
 
-  _titleClickHandler(evt) {
-    evt.preventDefault();
-    this._callback.titleClick();
+  _filmCardClickHandler(evt) {
+    let target = evt.target;
+
+    const title = this.getElement().querySelector(`.film-card__title`);
+    const poster = this.getElement().querySelector(`.film-card__poster`);
+    const comment = this.getElement().querySelector(`.film-card__comments`);
+
+    if (target === title || target === poster || target === comment) {
+      this._callback.filmCardClick();
+    }
   }
 
-  _posterClickHandler(evt) {
-    evt.preventDefault();
-    this._callback.posterClick();
+  _filmControlsClickHandler(evt) {
+    let target = evt.target;
+
+    const watchList = this.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`);
+    const watched = this.getElement().querySelector(`.film-card__controls-item--mark-as-watched`);
+    const favorite = this.getElement().querySelector(`.film-card__controls-item--favorite`);
+
+    if (target === watchList || target === watched || target === favorite) {
+
+      switch (target) {
+        case watchList:
+          this._callback.filmControlsClick(`isWatchlist`);
+          break;
+        case watched:
+          this._callback.filmControlsClick(`isWatched`);
+          break;
+        case favorite:
+          this._callback.filmControlsClick(`isFavorite`);
+          break;
+      }
+    }
   }
 }

@@ -1,7 +1,5 @@
 import {getRandomInteger} from "./utils/common";
 
-export const NUMBER_OF_CATEGORIES = 2;
-
 export const FilmsCount = {
   MAIN: 8,
   EXTRA: 2,
@@ -32,7 +30,10 @@ export const FilmOptions = {
 
 export const GENRES = [`Musical`, `Western`, ` Drama`, `Comedy`, `Cartoon`, `Mystery`];
 
-export const CATEGORIES = [`Top Rated`, `Most Commented`];
+export const CATEGORIES = {
+  topRated: `Top Rated`,
+  mostCommented: `Most Commented`
+};
 
 export const generateDate = () => {
 
@@ -61,4 +62,16 @@ export const SortType = {
   DEFAULT: `default`,
   DATE: `date`,
   RATING: `rating`
+};
+
+export const Emojies = {
+  SMILE: `smile`,
+  SLEEPING: `sleeping`,
+  PUKE: `puke`,
+  ANGRY: `angry`
+};
+
+export const Mode = {
+  DEFAULT: `DEFAULT`,
+  POPUP: `POPUP`
 };
