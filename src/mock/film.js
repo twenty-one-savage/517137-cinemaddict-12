@@ -1,8 +1,15 @@
 import momentRandom from 'moment-random';
-import {nanoid} from 'nanoid';
 
 import {getRandomInteger} from '../utils/common';
 import {FilmsCount, FilmOptions, GENRES} from '../consts';
+
+const generateId = () => {
+  return `xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx`.replace(/[xy]/g, (c) => {
+    let r = (Math.random() * 16) | 0;
+    let v = c === `x` ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+};
 
 const generateDate = () => {
   return momentRandom().fromNow();
@@ -99,8 +106,6 @@ const generateFilmDuration = () => {
 };
 
 const genereateFilmGenre = () => {
-
-
   return GENRES
   .sort(() => 0.5 - Math.random())
   .slice(getRandomInteger(0, GENRES.length - 1));
@@ -109,7 +114,7 @@ const genereateFilmGenre = () => {
 const generateFilm = () => {
   const comments = generateComments();
   return {
-    id: nanoid(),
+    id: generateId(),
     poster: generateFilmPoster(),
     name: generateFilmName(),
     rating: generateFilmRating(),
