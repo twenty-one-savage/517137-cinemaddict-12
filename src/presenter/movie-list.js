@@ -170,10 +170,10 @@ export default class MovieList {
       .values(CATEGORIES)
       .forEach((category) => {
         switch (category) {
-          case `Top Rated`:
+          case CATEGORIES.topRated:
             renderCategorySection(category, topRatedFilms);
             break;
-          case `Most Commented`:
+          case CATEGORIES.mostCommented:
             renderCategorySection(category, mostCommentedFilms);
             break;
         }

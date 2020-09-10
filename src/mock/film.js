@@ -1,7 +1,12 @@
-import {getRandomInteger} from '../utils/common';
-import {FilmsCount, FilmOptions, GENRES, generateDate} from '../consts';
+import momentRandom from 'moment-random';
+import {nanoid} from 'nanoid';
 
-const generateId = () => Date.now() + parseInt(Math.random() * 10000, 10);
+import {getRandomInteger} from '../utils/common';
+import {FilmsCount, FilmOptions, GENRES} from '../consts';
+
+const generateDate = () => {
+  return momentRandom().fromNow();
+};
 
 const generateFilmName = () => {
   const filmNames = [
@@ -70,7 +75,7 @@ const generateComments = () => {
       text: CommentsMap.TEXT[getRandomInteger(0, CommentsMap.TEXT.length - 1)],
       emoji: CommentsMap.EMOJI[getRandomInteger(0, CommentsMap.EMOJI.length - 1)],
       author: CommentsMap.AUTHOR[getRandomInteger(0, CommentsMap.AUTHOR.length - 1)],
-      date: generateDate(),
+      date: generateDate()
     });
   }
   return comments;
@@ -81,13 +86,13 @@ const generateFilmRating = () => {
 };
 
 const generateFilmYearOfProduction = () => {
-  return getRandomInteger(FilmOptions.filmYear.MIN, FilmOptions.filmYear.MAX);
+  return momentRandom().format(`YYYY`);
 };
 
 const generateFilmDuration = () => {
   const filmDuration = {
-    hours: getRandomInteger(FilmOptions.filmDuration.hours.MIN, FilmOptions.filmDuration.hours.MAX),
-    minutes: getRandomInteger(FilmOptions.filmDuration.minutes.MIN, FilmOptions.filmDuration.minutes.MAX)
+    hours: momentRandom().format(`h`),
+    minutes: momentRandom().format(`mm`),
   };
 
   return filmDuration;
@@ -104,7 +109,7 @@ const genereateFilmGenre = () => {
 const generateFilm = () => {
   const comments = generateComments();
   return {
-    id: generateId(),
+    id: nanoid(),
     poster: generateFilmPoster(),
     name: generateFilmName(),
     rating: generateFilmRating(),
