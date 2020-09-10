@@ -27,8 +27,9 @@ import {
 
 export default class MovieList {
 
-  constructor(container) {
+  constructor(container, filmsModel) {
     this._container = container;
+    this._filmsModel = filmsModel;
     this._renderedFilmsCount = FilmsCount.PER_STEP;
     this._filmMainPresenter = {};
     this._filmExtraPresenter = {};
@@ -65,6 +66,10 @@ export default class MovieList {
 
     this._renderMovieList();
     this._renderFilmsExtra();
+  }
+
+  _getFilms() {
+    return this._filmsModel().getFilms();
   }
 
   _updateItem(items, update) {
