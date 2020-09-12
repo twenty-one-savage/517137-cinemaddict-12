@@ -24,6 +24,6 @@ render(appHeaderElement, new UserView(), RenderPosition.BEFOREEND);
 render(appMainElement, new MainNavigationView(filters), RenderPosition.AFTERBEGIN);
 
 const filmsContainerPresenter = new MovieList(appMainElement, filmsModel);
-filmsContainerPresenter.init(allFilms);
+filmsContainerPresenter.init();
 
 render(appFooterElement, new FilmsStatisticsView(), RenderPosition.BEFOREEND);

@@ -3,7 +3,7 @@ import FilmPopupView from '../view/film-popup';
 
 import {render, replace, remove, RenderPosition} from '../utils/render';
 
-import {Mode} from '../consts';
+import {Mode, UserAction, UpdateType} from '../consts';
 
 import {isEscKeyPress} from '../utils/common';
 
@@ -101,6 +101,8 @@ export default class FilmPresenter {
 
   _handleControlsClick(key) {
     this._changeData(
+        UserAction.UPDATE_FILM,
+        UpdateType.PATCH,
         Object.assign(
             {},
             this._film,
@@ -116,7 +118,11 @@ export default class FilmPresenter {
   }
 
   _handleFormSubmit(film) {
-    this._changeData(film);
+    this._changeData(
+        UserAction.UPDATE_FILM,
+        UpdateType.MINOR,
+        film
+    );
     this._closePopup();
   }
 
