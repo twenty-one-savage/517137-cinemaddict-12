@@ -3,6 +3,8 @@ import MainNavigationView from './view/main-nav';
 import FilmsStatisticsView from './view/film-statistics';
 import MovieList from './presenter/movie-list';
 import FilmsModel from './model/films';
+import CommentsModel from './model/comments';
+import FilterModel from './model/filter';
 import {generateFilms} from './mock/film';
 import {generateFilter} from './mock/filter';
 import {render, RenderPosition} from "./utils/render";
@@ -13,6 +15,9 @@ const filters = generateFilter(allFilms);
 
 const filmsModel = new FilmsModel();
 filmsModel.setFilms(allFilms);
+
+const commentsModel = new CommentsModel();
+const filterModel = new FilterModel();
 
 const appBodyElement = document.querySelector(`body`);
 const appHeaderElement = appBodyElement.querySelector(`.header`);

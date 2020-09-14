@@ -79,6 +79,7 @@ const generateComments = () => {
 
   for (let i = 0; i < getRandomInteger(0, 5); i++) {
     comments.push({
+      id: generateId(),
       text: CommentsMap.TEXT[getRandomInteger(0, CommentsMap.TEXT.length - 1)],
       emoji: CommentsMap.EMOJI[getRandomInteger(0, CommentsMap.EMOJI.length - 1)],
       author: CommentsMap.AUTHOR[getRandomInteger(0, CommentsMap.AUTHOR.length - 1)],

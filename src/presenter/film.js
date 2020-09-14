@@ -1,3 +1,5 @@
+import CommentsModel from '../model/comments';
+
 import FilmView from '../view/film';
 import FilmPopupView from '../view/film-popup';
 
@@ -11,6 +13,8 @@ export default class FilmPresenter {
   constructor(filmListContainer, changeData, changeMode) {
     this._filmListContainer = filmListContainer;
 
+    this._commentsModel = new CommentsModel();
+
     this._filmComponent = null;
     this._filmPopupComponent = null;
 
@@ -22,28 +26,32 @@ export default class FilmPresenter {
     this._handleFilmCardClick = this._handleFilmCardClick.bind(this);
     this._handleControlsClick = this._handleControlsClick.bind(this);
 
+    this._handleModelEvent = this._handleModelEvent.bind(this);
+    this._handleViewAction = this._handleViewAction.bind(this);
+
     this._handleCloseBtnClick = this._handleCloseBtnClick.bind(this);
     this._handleFormSubmit = this._handleFormSubmit.bind(this);
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
+
+    this._commentsModel.addObserver(this._handleModelEvent);
   }
 
   init(film) {
     this._film = film;
 
-    let {comments} = film;
-    this._comments = comments;
+    this._comments = this._film.comments;
+    this._commentsModel.set(this._comments);
 
     const prevFilmComponent = this._filmComponent;
     const prevFilmPopupComponent = this._filmPopupComponent;
 
     this._filmComponent = new FilmView(film);
-    this._filmPopupComponent = new FilmPopupView(film, this._comments);
+    this._filmPopupComponent = new FilmPopupView(film, this._commentsModel.get());
 
     this._filmComponent.setFilmCardClickHandler(this._handleFilmCardClick);
     this._filmComponent.setFilmControlsClickHandler(this._handleControlsClick);
 
     this._filmPopupComponent.setFilmPopupControlsHandler(this._handleControlsClick);
-
     this._filmPopupComponent.setFormSubmitHandler(this._handleFormSubmit);
     this._filmPopupComponent.setCloseBtnClickHandler(this._handleCloseBtnClick);
 
@@ -95,6 +103,27 @@ export default class FilmPresenter {
     }
   }
 
+  _handleViewAction(actionType, updateType, update) {
+    switch (actionType) {
+      case UserAction.ADD_COMMENT:
+        this._commentsModel.addComment(updateType, update);
+        break;
+      case UserAction.DELETE_COMMENT:
+        this._commentsModel.deleteComment(updateType, update);
+        break;
+    }
+  }
+
+  _handleModelEvent(updateType, updatedFilm) {
+    switch (updateType) {
+      case UpdateType.PATCH:
+        break;
+
+      case UpdateType.MAJOR:
+        break;
+    }
+  }
+
   _handleFilmCardClick() {
     this._showPopup();
   }
@@ -120,7 +149,7 @@ export default class FilmPresenter {
   _handleFormSubmit(film) {
     this._changeData(
         UserAction.UPDATE_FILM,
-        UpdateType.MINOR,
+        UpdateType.MAJOR,
         film
     );
     this._closePopup();

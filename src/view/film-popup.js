@@ -96,7 +96,6 @@ export default class FilmPopupView extends SmartView {
       yearOfProduction,
       duration,
       genres,
-      comments,
       description,
       isWatchlist,
       isWatched,
@@ -178,7 +177,7 @@ export default class FilmPopupView extends SmartView {
           <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
         </section>
       </div>
-      ${createCommentsTemplate(comments)}
+      ${createCommentsTemplate(this._comments)}
     </form>
   </section>`;
   }

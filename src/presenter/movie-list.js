@@ -32,6 +32,7 @@ export default class MovieList {
   constructor(container, filmsModel) {
     this._container = container;
     this._filmsModel = filmsModel;
+
     this._renderedFilmsCount = FilmsCount.PER_STEP;
     this._filmMainPresenter = {};
     this._filmExtraPresenter = {};
