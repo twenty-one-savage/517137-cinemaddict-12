@@ -1,17 +1,15 @@
 import UserView from './view/user';
-import MainNavigationView from './view/main-nav';
-import FilmsStatisticsView from './view/film-statistics';
-import MovieList from './presenter/movie-list';
 import FilmsModel from './model/films';
 import CommentsModel from './model/comments';
 import FilterModel from './model/filter';
+import FilmsStatisticsView from './view/film-statistics';
+import MainNavigationView from './view/main-nav';
+import MovieListPresenter from './presenter/movie-list';
+import FilterPresenter from './presenter/filter';
 import {generateFilms} from './mock/film';
-import {generateFilter} from './mock/filter';
 import {render, RenderPosition} from "./utils/render";
 
 const allFilms = generateFilms();
-
-const filters = generateFilter(allFilms);
 
 const filmsModel = new FilmsModel();
 filmsModel.setFilms(allFilms);
@@ -26,9 +24,10 @@ const appFooterElement = appBodyElement.querySelector(`.footer`);
 
 render(appHeaderElement, new UserView(), RenderPosition.BEFOREEND);
 
-render(appMainElement, new MainNavigationView(filters), RenderPosition.AFTERBEGIN);
+const filmsPresenter = new MovieListPresenter(appMainElement, filmsModel, filterModel);
+const filterPresenter = new FilterPresenter(appMainElement, filterModel, filmsModel);
+filterPresenter.init();
+filmsPresenter.init();
 
-const filmsContainerPresenter = new MovieList(appMainElement, filmsModel);
-filmsContainerPresenter.init();
 
 render(appFooterElement, new FilmsStatisticsView(), RenderPosition.BEFOREEND);
