@@ -209,7 +209,12 @@ export default class MovieList {
 
       case UpdateType.MAJOR:
 
-        this._clearMovieList({resetSortType: true});
+        this._clearMovieList(
+            {
+              resetRenderedFilmCount: true,
+              resetSortType: true
+            }
+        );
         this._clearFilmsExtra();
 
         this._renderMovieList();
