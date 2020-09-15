@@ -1,9 +1,7 @@
 import UserView from './view/user';
 import FilmsModel from './model/films';
-import CommentsModel from './model/comments';
 import FilterModel from './model/filter';
 import FilmsStatisticsView from './view/film-statistics';
-import MainNavigationView from './view/main-nav';
 import MovieListPresenter from './presenter/movie-list';
 import FilterPresenter from './presenter/filter';
 import {generateFilms} from './mock/film';
@@ -14,7 +12,6 @@ const allFilms = generateFilms();
 const filmsModel = new FilmsModel();
 filmsModel.setFilms(allFilms);
 
-const commentsModel = new CommentsModel();
 const filterModel = new FilterModel();
 
 const appBodyElement = document.querySelector(`body`);
